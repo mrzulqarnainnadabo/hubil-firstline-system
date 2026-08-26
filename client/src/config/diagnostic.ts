@@ -1,8 +1,8 @@
 /**
  * FirstLine Business Presence Diagnostic — Prospect Data Model
  * --------------------------------------------------------------------------
- * FUTURE NOTION INTEGRATION: Keep these keys stable. They map directly to
- * the recommended Hubil Clients database properties below.
+ * Maps to the live Hubil Clients Notion database.
+ * Database: https://www.notion.so/86a2b54bbdf247b2831923cb6590aa82
  */
 
 export const DIAGNOSTIC_SOURCE = "FirstLine Business Presence Diagnostic";
@@ -35,45 +35,74 @@ export const diagnosticQuestions = {
     record: "01",
     eyebrow: "Business profile",
     title: "What best describes your business right now?",
-    helper: "Choose the category that is closest to the business you are building today.",
-    options: ["Fashion", "Services", "Food & Hospitality", "Trade & Retail", "Other"],
+    helper:
+      "Choose the category that is closest to the business you are building today.",
+    options: [
+      "Fashion",
+      "Services",
+      "Food & Hospitality",
+      "Trade & Retail",
+      "Other",
+    ],
   },
   discoveryChannel: {
     record: "02",
     eyebrow: "Customer access",
     title: "How do most customers find you and place orders?",
-    helper: "This helps us understand the current route between interest and action.",
-    options: ["WhatsApp only", "Instagram", "Physical location", "Website", "Combination"],
+    helper:
+      "This helps us understand the current route between interest and action.",
+    options: [
+      "WhatsApp only",
+      "Instagram",
+      "Physical location",
+      "Website",
+      "Combination",
+    ],
   },
   customerFrustration: {
     record: "03",
     eyebrow: "Operational pressure",
-    title: "What is the biggest daily frustration when dealing with customers?",
-    helper: "Select the issue that most affects confidence, speed, or customer experience.",
-    options: ["Lost messages", "Looking unprofessional", "No follow-up system", "Hard for customers to find me", "Other"],
+    title:
+      "What is the biggest daily frustration when dealing with customers?",
+    helper:
+      "Select the issue that most affects confidence, speed, or customer experience.",
+    options: [
+      "Lost messages",
+      "Looking unprofessional",
+      "No follow-up system",
+      "Hard for customers to find me",
+      "Other",
+    ],
   },
   readinessWindow: {
     record: "04",
     eyebrow: "Readiness signal",
-    title: "How ready are you to install a proper business presence system in the next 14–30 days?",
-    helper: "There is no wrong answer. It helps us recommend the right next step, if there is one.",
+    title:
+      "How ready are you to install a proper business presence system in the next 14–30 days?",
+    helper:
+      "There is no wrong answer. It helps us recommend the right next step, if there is one.",
     options: ["Ready now", "Exploring", "Just researching"],
   },
 } as const;
 
 /**
- * FUTURE NOTION INTEGRATION: Suggested property names and types for the
- * Hubil Clients database. A backend route can forward DiagnosticResponse
- * fields to Notion using this mapping, without changing the form interface.
+ * Live Hubil Clients property map (database 86a2b54b-bdf2-47b2-8319-23cb6590aa82).
+ * Server normalizes select values (e.g. "Food & Hospitality" → "Food").
  */
 export const NOTION_PROPERTY_MAP = {
-  fullName: { property: "Contact Name", type: "title" },
-  businessName: { property: "Business Name", type: "rich_text" },
-  whatsappNumber: { property: "WhatsApp Number", type: "phone_number" },
+  businessName: { property: "Name", type: "title" },
+  fullName: { property: "Contact Person", type: "rich_text" },
+  whatsappNumber: { property: "Phone", type: "phone_number" },
+  whatsappText: { property: "WhatsApp", type: "rich_text" },
   businessType: { property: "Business Type", type: "select" },
-  discoveryChannel: { property: "Customer Access", type: "select" },
-  customerFrustration: { property: "Primary Frustration", type: "select" },
-  readinessWindow: { property: "Readiness Window", type: "select" },
-  source: { property: "Lead Source", type: "select" },
-  submittedAt: { property: "Diagnostic Submitted", type: "date" },
+  discoveryChannel: { property: "Customer Channels", type: "multi_select" },
+  customerFrustration: { property: "Biggest Frustration", type: "select" },
+  readinessWindow: { property: "Readiness", type: "select" },
+  diagnosticSource: { property: "Diagnostic Source", type: "select" },
+  status: { property: "Status", type: "select" },
+  rawNotes: { property: "Raw Diagnostic Notes", type: "rich_text" },
 } as const;
+
+/** Hubil Clients database ID — set as NOTION_DATABASE_ID in production. */
+export const HUBIL_CLIENTS_DATABASE_ID =
+  "86a2b54b-bdf2-47b2-8319-23cb6590aa82";
