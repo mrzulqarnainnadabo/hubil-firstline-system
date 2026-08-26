@@ -8,6 +8,14 @@
 
 ## GitHub Release
 
-- [ ] Create a public `hubil-firstline-system` repository on the connected GitHub account.
-- [ ] Add a professional README and Node/Next-compatible ignore rules.
-- [ ] Create the requested initial commit on `main` and push the complete project.
+- [x] Create a public `hubil-firstline-system` repository on the connected GitHub account.
+- [x] Add a professional README and Node/Next-compatible ignore rules.
+- [x] Create the requested initial commit on `main` and push the complete project.
+
+## Production hardening (current)
+
+- [x] Add server-side `POST /api/diagnostic` with Zod validation and structured logging.
+- [x] Wire the diagnostic form to submit real data (with graceful local fallback).
+- [x] Add MIT LICENSE, CI workflow, and `.env.example`.
+- [ ] Optional: connect Notion API (NOTION_API_KEY + NOTION_DATABASE_ID) to auto-create Hubil Clients pages.
+- [ ] Deploy to a production host (Vercel, Railway, or similar) and point a custom domain.

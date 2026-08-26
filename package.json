@@ -1,8 +1,10 @@
 {
-  "name": "Hubil-Foundation-Template",
-  "version": "1.0.0",
+  "name": "hubil-firstline-system",
+  "version": "1.1.0",
+  "description": "FirstLine Business Presence Diagnostic — a Hubil Group system for qualifying Nigerian brands",
   "type": "module",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "vite --host",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
