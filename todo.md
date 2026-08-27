@@ -19,6 +19,6 @@
 - [x] Add MIT LICENSE, CI workflow, and `.env.example`.
 - [x] Connect Notion API to auto-create Hubil Clients pages (when env vars are set).
 - [x] Add Vercel serverless API routes (`api/diagnostic.ts`, `api/health.ts`) + `vercel.json` so the app deploys cleanly on Vercel.
-- [ ] Link the GitHub repo to a Vercel project (or finish the existing project link) so every push to `main` auto-deploys.
-- [ ] Create a Notion internal integration, share **Hubil Clients** with it, and set `NOTION_API_KEY` + `NOTION_DATABASE_ID` as Vercel environment variables.
-- [ ] Point a custom domain (optional) and verify `/api/health` returns `notionConfigured: true`.
+- [x] Set `NOTION_API_KEY` + `NOTION_DATABASE_ID` as Vercel environment variables.
+- [ ] Confirm production deploy succeeds and `/api/health` returns `notionConfigured: true`.
+- [ ] Point a custom domain (optional).
