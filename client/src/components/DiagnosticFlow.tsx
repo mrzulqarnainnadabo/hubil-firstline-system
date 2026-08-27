@@ -1,6 +1,7 @@
 /**
- * Design context — A calm, high-status assessment interface. It should feel
- * like a diagnostic record, not a conversion funnel. Data structure lives in config/diagnostic.ts.
+ * FirstLine diagnostic UI — calm assessment that ends in a WhatsApp-ready handoff.
+ * After submit, the owner continues the conversation on WhatsApp with their answers
+ * already packaged so Hubil can respond as a real problem-solving partner.
  */
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +9,7 @@ import {
   diagnosticQuestions,
   emptyDiagnosticResponse,
 } from "@/config/diagnostic";
+import { SITE, buildWhatsAppContinueUrl } from "@/config/site";
 import {
   ArrowLeft,
   ArrowRight,
@@ -44,6 +46,7 @@ export function DiagnosticFlow({
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [completed, setCompleted] = useState<DiagnosticResponse | null>(null);
 
   const progress = useMemo(
     () => Math.round(((activeStep + 1) / 5) * 100),
@@ -89,7 +92,7 @@ export function DiagnosticFlow({
       !response.whatsappNumber.trim()
     ) {
       setError(
-        "Please provide your name, business name, and WhatsApp number to complete the diagnostic.",
+        "Please provide your name, business name, and WhatsApp number so we can continue with you.",
       );
       return;
     }
@@ -115,11 +118,12 @@ export function DiagnosticFlow({
       }
 
       onComplete?.(completedResponse);
+      setCompleted(completedResponse);
       setSubmitted(true);
     } catch (err) {
-      // Graceful fallback: still complete the experience locally so the user is not blocked.
       console.warn("Diagnostic API unavailable, completing locally:", err);
       onComplete?.(completedResponse);
+      setCompleted(completedResponse);
       setSubmitted(true);
     } finally {
       setIsSubmitting(false);
@@ -130,10 +134,13 @@ export function DiagnosticFlow({
     setResponse(emptyDiagnosticResponse);
     setActiveStep(0);
     setSubmitted(false);
+    setCompleted(null);
     setError("");
   }
 
-  if (submitted) {
+  if (submitted && completed) {
+    const continueUrl = buildWhatsAppContinueUrl(completed);
+
     return (
       <div className="relative overflow-hidden border border-[#B8121C]/45 bg-[#0D2037] px-6 py-10 text-white sm:px-10 sm:py-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(184,18,28,0.34),transparent_26%)]" />
@@ -142,30 +149,53 @@ export function DiagnosticFlow({
             <CheckCircle2 size={25} />
           </span>
           <p className="mt-7 text-[0.65rem] font-extrabold uppercase tracking-[0.19em] text-[#F5B8BB]">
-            Diagnostic received · record secured
+            Diagnostic received · next step on WhatsApp
           </p>
           <h3 className="mt-3 font-display text-4xl leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl">
-            Thank you. Your responses have been received.
+            Good. Now we continue the conversation where you already work.
           </h3>
           <p className="mt-5 max-w-xl text-base leading-7 text-slate-300">
-            A Hubil systems specialist will review and respond. If you prefer to
-            clarify something now, WhatsApp remains open as a secondary route.
+            Your answers are with Hubil. Tap below to open WhatsApp with a short
+            summary already written — so we can talk about fixing the leaks and
+            attracting better clients, not start from zero.
           </p>
+
+          <div className="mt-6 border border-white/15 bg-white/[0.04] px-4 py-4 text-sm leading-6 text-slate-200">
+            <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#F5B8BB]">
+              What happens next
+            </p>
+            <ul className="mt-3 grid gap-2 text-slate-300">
+              <li>· A Hubil specialist reviews your diagnostic record.</li>
+              <li>· You continue on WhatsApp with context already shared.</li>
+              <li>· If there is a fit, we map a practical presence + client system.</li>
+            </ul>
+          </div>
+
+          <p className="mt-5 text-xs leading-5 text-slate-400">{SITE.privacyNote}</p>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={continueUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-[#B8121C] px-5 py-3.5 text-sm font-extrabold text-white transition-colors hover:bg-[#D02832]"
+            >
+              <MessageCircle size={18} /> Continue on WhatsApp
+            </a>
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#B8121C] px-5 py-3 text-sm font-extrabold text-white transition-colors hover:bg-[#D02832]"
+              className="inline-flex items-center justify-center gap-2 border border-white/20 px-5 py-3.5 text-sm font-extrabold text-white transition-colors hover:bg-white/10"
             >
-              <MessageCircle size={18} /> Open WhatsApp
+              Open WhatsApp without summary
             </a>
             <button
               type="button"
               onClick={restartDiagnostic}
-              className="inline-flex items-center justify-center gap-2 border border-white/20 px-5 py-3 text-sm font-extrabold text-white transition-colors hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 px-3 py-3 text-sm font-extrabold text-slate-300 transition-colors hover:text-white"
             >
-              <RotateCcw size={17} /> Start another diagnostic
+              <RotateCcw size={17} /> Start another
             </button>
           </div>
         </div>
@@ -178,10 +208,10 @@ export function DiagnosticFlow({
       <div className="grid border-b border-[#D8D4CC] bg-[#F8F6F1] sm:grid-cols-[1fr_auto] sm:items-center">
         <div className="px-5 py-5 sm:px-8">
           <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#B8121C]">
-            FirstLine assessment file · FL–01
+            FirstLine assessment · FL–01
           </p>
           <p className="mt-1 text-sm font-bold text-[#0D2037]">
-            Business Presence Diagnostic
+            Presence, clients & revenue readiness
           </p>
         </div>
         <div className="border-t border-[#D8D4CC] px-5 py-4 sm:border-l sm:border-t-0 sm:px-8">
@@ -205,22 +235,22 @@ export function DiagnosticFlow({
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-[0.32fr_0.68fr]">
         <aside className="border-b border-[#D8D4CC] bg-[#0D2037] px-5 py-7 text-white lg:border-b-0 lg:border-r lg:px-8 lg:py-10">
           <span className="text-[0.6rem] font-extrabold uppercase tracking-[0.18em] text-[#F5B8BB]">
-            Assessment method
+            Why this matters
           </span>
           <p className="mt-4 font-display text-3xl leading-[1.04] tracking-[-0.04em]">
-            A clear read on where your business stands.
+            A short read on where clients and money are leaking.
           </p>
           <p className="mt-5 text-sm leading-6 text-slate-300">
-            Five short records help us understand your present access, operational
-            friction, and readiness for a stronger customer-facing system.
+            Five records. Then we continue on WhatsApp with your answers already
+            in hand — so the next step is practical, not another cold form.
           </p>
           <div className="mt-8 grid gap-3">
             {[
               "Business context",
-              "Customer access",
-              "Operational pressure",
-              "Readiness signal",
-              "Contact record",
+              "Where clients find you",
+              "Where money leaks",
+              "Readiness to fix it",
+              "How we reach you",
             ].map((label, index) => (
               <div
                 key={label}
@@ -237,10 +267,9 @@ export function DiagnosticFlow({
               </div>
             ))}
           </div>
-          <div className="mt-9 flex items-center gap-3 border-t border-white/15 pt-5 text-xs leading-5 text-slate-400">
-            <LockKeyhole size={16} className="shrink-0 text-[#E14C53]" /> Your
-            details are collected for a Hubil systems review, not a public
-            directory.
+          <div className="mt-9 flex items-start gap-3 border-t border-white/15 pt-5 text-xs leading-5 text-slate-400">
+            <LockKeyhole size={16} className="mt-0.5 shrink-0 text-[#E14C53]" />
+            <span>{SITE.privacyNote}</span>
           </div>
         </aside>
 
@@ -298,14 +327,14 @@ export function DiagnosticFlow({
           ) : (
             <div>
               <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#B8121C]">
-                Record 05 · contact record
+                Record 05 · how we reach you
               </p>
               <h3 className="mt-3 max-w-2xl font-display text-3xl leading-[1.06] tracking-[-0.04em] text-[#0D2037] sm:text-4xl">
-                Where should a Hubil systems specialist respond?
+                Where should Hubil continue with you on WhatsApp?
               </h3>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-[#526174]">
-                Your contact details complete the assessment record. Use the
-                WhatsApp number on which you can be reached.
+                Use the number you actually answer. After you submit, you can open
+                WhatsApp with your diagnostic already summarised for us.
               </p>
               <div className="mt-8 grid gap-5 sm:grid-cols-2">
                 <label className="grid gap-2 text-sm font-extrabold text-[#0D2037]">
@@ -385,7 +414,7 @@ export function DiagnosticFlow({
                 disabled={isSubmitting}
                 className="h-12 rounded-none bg-[#B8121C] px-5 text-sm font-extrabold text-white hover:bg-[#D02832] disabled:opacity-70"
               >
-                {isSubmitting ? "Submitting…" : "Submit diagnostic"}
+                {isSubmitting ? "Submitting…" : "Submit & continue on WhatsApp"}
                 {!isSubmitting && <ArrowRight size={18} />}
               </Button>
             )}
