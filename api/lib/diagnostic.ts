@@ -25,6 +25,13 @@ export type DiagnosticRecord = z.infer<typeof DiagnosticSchema> & {
 /** Normalize form values to match Hubil Clients select options. */
 export function mapBusinessType(value: string): string {
   const map: Record<string, string> = {
+    "Professional / service business": "Services",
+    "Fashion or beauty brand": "Fashion",
+    "Food, catering or hospitality": "Food",
+    "Trade, retail or wholesale": "Trade",
+    "Tech, digital or creative": "Tech",
+    "Other serious small brand": "Other",
+    // legacy labels
     Fashion: "Fashion",
     Services: "Services",
     "Food & Hospitality": "Food",
@@ -62,10 +69,6 @@ export function mapReadiness(value: string): string {
   return allowed.includes(value) ? value : "Exploring";
 }
 
-/**
- * Create a page in the Hubil Clients Notion database.
- * Requires NOTION_API_KEY and NOTION_DATABASE_ID.
- */
 export async function createNotionClientPage(
   record: DiagnosticRecord,
 ): Promise<{ pageId: string; url: string } | null> {
