@@ -1,6 +1,6 @@
 /**
- * FirstLine landing — framed as a practical financial / client-growth tool
- * for Nigerian business owners. Diagnostic first, conversation continues on WhatsApp.
+ * FirstLine landing — diagnostic front door into Hubil Small Business Operating Systems.
+ * Packages shown by outcomes only (Foundation, Growth, Operating System). No prices.
  */
 import { DiagnosticFlow } from "@/components/DiagnosticFlow";
 import { DIAGNOSTIC_SOURCE, DiagnosticResponse } from "@/config/diagnostic";
@@ -20,24 +20,6 @@ import {
 import { useState } from "react";
 
 const directWhatsApp = `${SITE.primaryWhatsAppUrl}?text=${PRIMARY_WHATSAPP_MESSAGE}`;
-
-const systemRecords = [
-  {
-    code: "A1",
-    title: "Where clients find you",
-    copy: "WhatsApp, Instagram, TikTok, Facebook, Google, walk-ins — and which path actually pays.",
-  },
-  {
-    code: "A2",
-    title: "Where money leaks",
-    copy: "Missed messages, weak first impression, no follow-up, or customers who cannot find you.",
-  },
-  {
-    code: "A3",
-    title: "What happens next",
-    copy: "A clear readiness signal so Hubil can continue with you on WhatsApp, not start from zero.",
-  },
-];
 
 function SignalLabel({
   children,
@@ -107,13 +89,13 @@ export default function Home() {
             aria-label="Primary navigation"
           >
             <a href="#diagnostic" className="transition-colors hover:text-white">
-              The diagnostic
+              Diagnostic
             </a>
-            <a href="#fit" className="transition-colors hover:text-white">
-              What you get
+            <a href="#systems" className="transition-colors hover:text-white">
+              Systems
             </a>
             <a href="#contact" className="transition-colors hover:text-white">
-              Contact Hubil
+              Contact
             </a>
           </nav>
           <button
@@ -142,7 +124,7 @@ export default function Home() {
           >
             {[
               ["#diagnostic", "Start the diagnostic"],
-              ["#fit", "What you get"],
+              ["#systems", "The systems"],
               ["#contact", "Contact Hubil"],
             ].map(([href, label]) => (
               <button
@@ -162,18 +144,18 @@ export default function Home() {
       <main id="top">
         <section className="relative isolate overflow-hidden bg-[#0D2037] pt-[76px] text-white">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_88%,rgba(184,18,28,0.35),transparent_25%),radial-gradient(circle_at_75%_15%,rgba(255,255,255,0.06),transparent_24%)]" />
-          <div className="mx-auto grid min-h-[665px] max-w-[1480px] lg:grid-cols-[0.94fr_1.06fr]">
+          <div className="mx-auto grid min-h-[640px] max-w-[1480px] lg:grid-cols-[0.94fr_1.06fr]">
             <div className="relative z-10 flex flex-col justify-between px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-20 lg:px-12 lg:pb-14 lg:pt-24 xl:px-16">
-              <div className="animate-rise max-w-[680px]">
+              <div className="animate-rise max-w-[700px]">
                 <div className="mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-[#F5B8BB]">
                   <span className="inline-flex items-center gap-2">
                     <span className="status-dot h-2 w-2 rounded-full bg-[#E14C53]" />{" "}
-                    Open for serious owners
+                    Small business operating systems
                   </span>
                   <span className="h-3 w-px bg-white/25" />
-                  <span>Diagnostic file FL–01</span>
+                  <span>FL–01 diagnostic</span>
                 </div>
-                <h1 className="font-display max-w-[700px] text-[2.85rem] leading-[0.96] tracking-[-0.05em] text-white sm:text-[4.1rem] lg:text-[4.85rem] xl:text-[5.35rem]">
+                <h1 className="font-display max-w-[720px] text-[2.7rem] leading-[0.96] tracking-[-0.05em] text-white sm:text-[3.9rem] lg:text-[4.6rem]">
                   {SITE.headline}
                 </h1>
                 <p className="mt-7 max-w-xl text-[1rem] leading-7 text-slate-200 sm:text-lg sm:leading-8">
@@ -193,10 +175,10 @@ export default function Home() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => jumpTo("#fit")}
+                    onClick={() => jumpTo("#systems")}
                     className="inline-flex items-center justify-center gap-2 border border-white/20 px-6 py-4 text-sm font-extrabold text-white transition-colors duration-200 hover:border-white hover:bg-white/10 active:scale-[0.97]"
                   >
-                    See how it helps <ChevronRight size={17} />
+                    See the systems <ChevronRight size={17} />
                   </button>
                 </div>
               </div>
@@ -204,71 +186,65 @@ export default function Home() {
                 <div className="flex items-center gap-3">
                   <span className="font-display text-3xl text-[#E14C53]">05</span>
                   <p className="text-xs font-semibold leading-5 text-slate-300">
-                    Short records. Real answers.
+                    Short records. Honest answers.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock3 size={18} className="text-[#E14C53]" />
                   <p className="text-xs font-semibold leading-5 text-slate-300">
-                    A few focused minutes on your phone.
+                    Then a 15–20 min discovery on WhatsApp.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <MessageCircle size={18} className="text-[#E14C53]" />
                   <p className="text-xs font-semibold leading-5 text-slate-300">
-                    Continues on WhatsApp with context.
+                    Context already in your message.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="relative min-h-[340px] lg:min-h-0">
+            <div className="relative min-h-[320px] lg:min-h-0">
               <img
                 src={SITE.images.hero}
-                alt="Nigerian entrepreneur ready to welcome customers into her business"
+                alt="Nigerian business owner with a professional customer-facing setup"
                 className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0D2037]/80 via-[#0D2037]/5 to-transparent lg:bg-gradient-to-r lg:from-[#0D2037]/60 lg:via-transparent lg:to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-5 pb-5 sm:px-8 sm:pb-8 lg:left-auto lg:w-[74%] lg:px-10">
-                <div className="max-w-[260px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md">
+                <div className="max-w-[270px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md">
                   <p className="text-[0.58rem] font-bold uppercase tracking-[0.17em] text-[#F5B8BB]">
-                    Field note 01 · revenue readiness
+                    Core promise
                   </p>
                   <p className="mt-1 text-sm font-bold leading-5 text-white">
-                    Looking ready is part of how customers decide to pay.
+                    Find you. Buy from you. Come back — while you stay in control.
                   </p>
                 </div>
-                <span className="font-display text-6xl text-white/25">01</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="border-y border-[#D8D4CC] bg-[#ECE8DF] px-5 py-5 sm:px-8 lg:px-12 xl:px-16">
-          <div className="mx-auto flex max-w-[1360px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="flex items-center gap-3 text-sm font-extrabold text-[#0D2037]">
-              <span className="grid h-8 w-8 place-items-center bg-[#B8121C] text-white">
-                <ShieldCheck size={16} />
-              </span>
-              A practical assessment — then we continue on WhatsApp.
+        <section className="border-y border-[#D8D4CC] bg-[#ECE8DF] px-5 py-6 sm:px-8 lg:px-12">
+          <div className="mx-auto max-w-[1360px]">
+            <p className="text-sm font-extrabold leading-6 text-[#0D2037]">
+              {SITE.corePromise}
             </p>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#526174]">
-              Calm · useful · owner-first
+            <p className="mt-3 max-w-4xl text-sm leading-6 text-[#526174]">
+              <span className="font-bold text-[#0D2037]">Who this is for:</span>{" "}
+              {SITE.whoThisIsFor}
             </p>
           </div>
         </section>
 
         <section className="bg-white py-16 sm:py-20">
           <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
-            <SignalLabel>What this tool is for</SignalLabel>
+            <SignalLabel>What FirstLine is for</SignalLabel>
             <h2 className="font-display max-w-3xl text-3xl leading-[1.05] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
-              Built to solve money problems, not to collect empty leads.
+              Diagnose the leak. Then install the right system.
             </h2>
             <div className="mt-10 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC] sm:grid-cols-3">
               {SITE.valuePillars.map((pillar) => (
-                <article
-                  key={pillar.title}
-                  className="bg-[#F8F6F1] px-6 py-7"
-                >
+                <article key={pillar.title} className="bg-[#F8F6F1] px-6 py-7">
                   <h3 className="text-sm font-extrabold text-[#0D2037]">
                     {pillar.title}
                   </h3>
@@ -281,19 +257,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="diagnostic" className="bg-[#F8F6F1] py-20 sm:py-28 lg:py-32">
+        <section id="diagnostic" className="bg-[#F8F6F1] py-20 sm:py-28">
           <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
             <div className="grid gap-10 lg:grid-cols-[0.55fr_0.45fr] lg:items-end">
               <div>
-                <SignalLabel>Start the assessment</SignalLabel>
-                <h2 className="font-display max-w-3xl text-4xl leading-[1.02] tracking-[-0.04em] text-[#0D2037] sm:text-6xl">
+                <SignalLabel>Start here</SignalLabel>
+                <h2 className="font-display max-w-3xl text-4xl leading-[1.02] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
                   FirstLine diagnostic.
                 </h2>
               </div>
               <p className="max-w-md text-base leading-7 text-[#526174] lg:justify-self-end">
-                Answer five short records about your business, where clients find
-                you, and where revenue is leaking. When you finish, continue on
-                WhatsApp with your answers already summarised for Hubil.
+                Five short records. We learn how you sell, where clients find you,
+                and where money leaks. Then we continue on WhatsApp with your
+                answers already in the message — and tell you honestly which
+                system fits.
               </p>
             </div>
             <div className="mt-12">
@@ -304,121 +281,105 @@ export default function Home() {
             </div>
             {lastDiagnostic && (
               <p className="sr-only">
-                Diagnostic record completed for {lastDiagnostic.businessName}{" "}
-                from {DIAGNOSTIC_SOURCE}.
+                Diagnostic completed for {lastDiagnostic.businessName} from{" "}
+                {DIAGNOSTIC_SOURCE}.
               </p>
             )}
           </div>
         </section>
 
-        <section id="fit" className="bg-white py-20 sm:py-28 lg:py-32">
-          <div className="mx-auto grid max-w-[1480px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.4fr_0.6fr] lg:gap-20 lg:px-12 xl:px-16">
-            <div>
-              <SignalLabel>How we use your answers</SignalLabel>
-              <h2 className="font-display max-w-sm text-4xl leading-[1.03] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
-                From diagnosis to a clearer client system.
-              </h2>
-              <div className="mt-10 border-l-2 border-[#B8121C] pl-5">
-                <p className="text-sm font-bold leading-6 text-[#0D2037]">
-                  FirstLine is for owners who want more serious clients and fewer
-                  lost conversations — not another pretty page that sits unused.
-                </p>
-              </div>
-            </div>
-            <div>
-              <p className="max-w-2xl text-xl leading-8 text-[#314154] sm:text-2xl sm:leading-9">
-                Search engines and social platforms only help when your business
-                looks established and is easy to reach. We use your diagnostic to
-                see where presence, trust, and follow-up are breaking — then we
-                continue that conversation with you on WhatsApp.
-              </p>
-              <div className="mt-10 border-y border-[#D8D4CC]">
-                {systemRecords.map((item) => (
-                  <article
-                    key={item.code}
-                    className="grid gap-4 border-b border-[#D8D4CC] py-6 last:border-0 sm:grid-cols-[72px_0.72fr_1fr] sm:items-start sm:gap-7"
-                  >
-                    <div className="flex items-center gap-2 text-[#B8121C]">
-                      <ShieldCheck size={17} />
-                      <span className="font-display text-2xl tracking-[-0.05em]">
-                        {item.code}
-                      </span>
-                    </div>
-                    <h3 className="text-sm font-extrabold text-[#0D2037]">
-                      {item.title}
+        <section id="systems" className="bg-white py-20 sm:py-28">
+          <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
+            <SignalLabel>The systems we install</SignalLabel>
+            <h2 className="font-display max-w-3xl text-4xl leading-[1.03] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
+              Foundation. Growth. Operating System.
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-[#526174]">
+              After the diagnostic we map you to the lightest system that solves
+              the real problem — not the heaviest package on the menu.
+            </p>
+            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+              {SITE.systems.map((system) => (
+                <article
+                  key={system.code}
+                  className="flex flex-col border border-[#D8D4CC] bg-[#F8F6F1]"
+                >
+                  <div className="border-b border-[#D8D4CC] bg-[#0D2037] px-5 py-4 text-white">
+                    <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#F5B8BB]">
+                      System {system.code}
+                    </p>
+                    <h3 className="mt-1 font-display text-2xl tracking-[-0.03em]">
+                      {system.name}
                     </h3>
-                    <p className="text-sm leading-6 text-[#526174]">{item.copy}</p>
-                  </article>
-                ))}
-              </div>
+                  </div>
+                  <div className="flex flex-1 flex-col px-5 py-5">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#B8121C]">
+                      Best for
+                    </p>
+                    <p className="mt-2 text-sm font-bold leading-6 text-[#0D2037]">
+                      {system.bestFor}
+                    </p>
+                    <p className="mt-4 text-sm leading-6 text-[#526174]">
+                      <span className="font-extrabold text-[#0D2037]">
+                        What this solves:
+                      </span>{" "}
+                      {system.solves}
+                    </p>
+                    <ul className="mt-4 grid gap-2 border-t border-[#D8D4CC] pt-4">
+                      {system.includes.slice(0, 5).map((item) => (
+                        <li
+                          key={item}
+                          className="flex gap-2 text-xs leading-5 text-[#314154]"
+                        >
+                          <Check
+                            size={14}
+                            className="mt-0.5 shrink-0 text-[#B8121C]"
+                          />
+                          {item}
+                        </li>
+                      ))}
+                      {system.includes.length > 5 && (
+                        <li className="text-xs font-bold text-[#526174]">
+                          + more on handover
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#F8F6F1] py-20 sm:py-28 lg:py-32">
-          <div className="mx-auto grid max-w-[1480px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-20 lg:px-12 xl:px-16">
-            <div className="relative">
-              <div className="overflow-hidden bg-[#D9D3C9]">
-                <img
-                  src={SITE.images.about}
-                  alt="Nigerian small-business owner preparing a customer order at a working counter"
-                  className="aspect-[4/4.4] h-full w-full object-cover"
-                />
-              </div>
-              <div className="absolute left-0 top-5 border-l-2 border-[#B8121C] bg-[#F8F6F1]/95 px-4 py-3 backdrop-blur-sm">
-                <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.17em] text-[#B8121C]">
-                  Field note 02
-                </p>
-                <p className="mt-1 text-xs font-bold text-[#0D2037]">
-                  Customer-facing operations
-                </p>
-              </div>
-              <div className="absolute -bottom-6 right-5 max-w-[220px] border-t-2 border-[#B8121C] bg-[#0D2037] px-5 py-5 text-white shadow-2xl sm:right-8">
-                <p className="text-[0.59rem] font-extrabold uppercase tracking-[0.15em] text-[#F5B8BB]">
-                  The standard
-                </p>
-                <p className="mt-2 text-sm font-bold leading-5">
-                  Your business should feel intentional in the hands of your
-                  customer.
-                </p>
-              </div>
-            </div>
-            <div className="lg:pl-4">
-              <SignalLabel>What FirstLine protects</SignalLabel>
-              <h2 className="font-display text-4xl leading-[1.04] tracking-[-0.04em] text-[#0D2037] sm:text-6xl">
-                Fewer lost customers. Stronger first impression.
-              </h2>
-              <p className="mt-7 max-w-xl text-base leading-7 text-[#526174] sm:text-lg">
-                A clear presence system gives you room to deliver. Customers see
-                an established front line; you see fewer missed chats, clearer
-                next steps, and a brand that is easier to take seriously on
-                Instagram, TikTok, Facebook, X, and Google.
+        <section className="bg-[#F8F6F1] py-16 sm:py-20">
+          <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
+            <SignalLabel>How we work</SignalLabel>
+            <h2 className="font-display max-w-2xl text-3xl tracking-[-0.04em] text-[#0D2037] sm:text-4xl">
+              Discovery → proposal → build → handover → support.
+            </h2>
+            <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {SITE.howWeWork.map((step, index) => (
+                <li
+                  key={step}
+                  className="border border-[#D8D4CC] bg-white px-4 py-5"
+                >
+                  <span className="font-display text-2xl text-[#B8121C]">
+                    0{index + 1}
+                  </span>
+                  <p className="mt-2 text-xs font-bold leading-5 text-[#0D2037]">
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-10 border-l-2 border-[#B8121C] pl-5">
+              <p className="text-sm leading-6 text-[#526174]">
+                <span className="font-extrabold text-[#0D2037]">Why Hubil.</span>{" "}
+                {SITE.whyHubil}
               </p>
-              <div className="mt-8 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC] sm:grid-cols-2">
-                {[
-                  "Clear route to contact",
-                  "Stronger first impression",
-                  "Less customer confusion",
-                  "Follow-up that does not disappear",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 bg-[#F8F6F1] px-5 py-4 text-sm font-extrabold text-[#0D2037]"
-                  >
-                    <Check size={17} className="text-[#B8121C]" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 border-l-2 border-[#B8121C] pl-5">
-                <p className="text-sm leading-6 text-[#526174]">
-                  <span className="font-extrabold text-[#0D2037]">
-                    Led by {SITE.managingDirector}.
-                  </span>{" "}
-                  Hubil Group treats small-business presence as an operational
-                  system — not decoration.
-                </p>
-              </div>
+              <p className="mt-3 text-sm font-bold text-[#0D2037]">
+                Led by {SITE.managingDirector}.
+              </p>
             </div>
           </div>
         </section>
@@ -436,14 +397,14 @@ export default function Home() {
           </div>
           <div className="relative mx-auto grid max-w-[1480px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20 lg:px-12 xl:px-16">
             <div>
-              <SignalLabel light>Hubil Group</SignalLabel>
+              <SignalLabel light>Next step</SignalLabel>
               <h2 className="font-display text-4xl leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl">
-                Prefer to talk first? WhatsApp is open.
+                Book a short discovery on WhatsApp.
               </h2>
               <p className="mt-6 max-w-md text-base leading-7 text-slate-300">
-                The diagnostic is the preferred first route so we have context.
-                If you need to speak now, use the routes below — we will still
-                treat it as a serious conversation, not a cold lead.
+                Complete the diagnostic first so we have context. Or message
+                directly if you need to speak now — we will still tell you
+                honestly which system fits and what results to expect.
               </p>
             </div>
             <div className="overflow-hidden border border-white/15 text-sm">
@@ -453,7 +414,7 @@ export default function Home() {
                 </p>
                 <span className="inline-flex items-center gap-2 text-[0.56rem] font-extrabold uppercase tracking-[0.14em] text-slate-300">
                   <span className="status-dot h-1.5 w-1.5 rounded-full bg-[#E14C53]" />{" "}
-                  Support route open
+                  Open
                 </span>
               </div>
               <div className="grid sm:grid-cols-3">
@@ -477,7 +438,7 @@ export default function Home() {
                   <Phone size={19} className="text-[#E14C53]" />
                   <span>
                     <span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">
-                      Secondary line
+                      Phone
                     </span>
                     <span className="mt-1 block text-xs font-bold">
                       {SITE.secondaryPhoneDisplay}
@@ -510,11 +471,11 @@ export default function Home() {
             <img
               src={SITE.images.hubilLogo}
               alt="Hubil Group"
-              className="h-8 w-8 rounded-sm object-contain bg-white p-0.5"
+              className="h-8 w-8 rounded-sm bg-white object-contain p-0.5"
             />
             <span>
-              <span className="font-bold text-white">FirstLine</span> · A Hubil
-              Group System
+              <span className="font-bold text-white">FirstLine</span> · Hubil
+              Group · Strategy. Structure. Growth.
             </span>
           </p>
           <a
@@ -523,8 +484,7 @@ export default function Home() {
             rel="noreferrer"
             className="text-xs font-bold text-slate-300 transition-colors hover:text-white"
           >
-            Powered by Hubil Group Systems{" "}
-            <ArrowUpRight size={13} className="ml-1 inline" />
+            Hubil Group Systems <ArrowUpRight size={13} className="ml-1 inline" />
           </a>
         </div>
       </footer>
