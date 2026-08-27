@@ -1,56 +1,116 @@
 /**
  * Hubil FirstLine — Client Customization Console
  * --------------------------------------------------------------------------
- * FUTURE CLIENT SETUP: This is the main file to edit when adapting the system.
- * Change the values below before launch; the page updates automatically.
+ * FirstLine is the diagnostic front door into Hubil Small Business Operating Systems.
+ * Packages (Foundation → Growth → Operating System) are described by outcomes only — no prices on this surface.
  */
 
 export const SITE = {
-  // CUSTOMIZE: Business identity
   companyName: "Hubil Group",
   systemName: "FirstLine",
-  systemDescriptor: "Business Presence & Client Growth Diagnostic",
+  systemDescriptor: "Small Business Operating Systems Diagnostic",
   managingDirector: "Ambassador Zulqarnain Yusuf Nadabo",
 
-  // CUSTOMIZE: Business messaging — framed as a financial / growth problem-solver
-  eyebrow: "Built for Nigerian business owners who want more serious clients",
-  headline: "Stop losing customers. Start looking ready for the ones who pay.",
+  eyebrow: "For Nigerian brands tired of leaking customers and looking smaller than they are",
+  headline: "Install the systems serious businesses use — starting with an honest diagnosis.",
   tagline:
-    "FirstLine helps you diagnose where money and clients are leaking — weak presence, missed messages, and no clear path from interest to payment — then continues the conversation with you on WhatsApp.",
+    "FirstLine finds where you are invisible, where messages are lost, and where money leaks. Then we continue on WhatsApp and map the right operating system for your brand.",
   availabilityNote:
-    "Assessment first · WhatsApp follow-up is how we work with you",
+    "Diagnostic first · Discovery on WhatsApp · Systems installed after fit is clear",
 
-  // Value pillars (used on the landing page)
+  corePromise:
+    "We do not sell random digital services. We install the essential systems a small brand needs so customers can find you, buy from you, and come back — while you stay in control.",
+
+  whoThisIsFor:
+    "Small and growing Nigerian brands, traders, service providers, and founders running on scattered WhatsApp chats, lost customer details, and a presence that understates the real business.",
+
   valuePillars: [
     {
-      title: "Protect the money already coming in",
-      copy: "Missed chats, unclear offers, and a weak first impression cost real revenue every week.",
+      title: "Look professional and be findable",
+      copy: "Documentation, Google Business Profile, a clean mobile front door, and WhatsApp that actually converts interest into contact.",
     },
     {
-      title: "Become easier to find and trust",
-      copy: "Search, Instagram, TikTok, Facebook, and X only convert when your business looks established and reachable.",
+      title: "Capture every customer",
+      copy: "Stop losing people in chats. Log inquiries, automate first response, and keep a simple record of who bought and who needs follow-up.",
     },
     {
-      title: "Continue on WhatsApp, not another form",
-      copy: "After the diagnostic, Hubil picks up the conversation on WhatsApp with your answers already in hand.",
+      title: "Stop leaking money",
+      copy: "Turn daily chaos into a lightweight operating system — website, database, automations, and handover so you are not abandoned after delivery.",
     },
   ] as const,
 
-  // CUSTOMIZE: Primary contact routes — use country code without + or spaces for WhatsApp.
+  /** Outcomes only — mirrors the service menu without prices. */
+  systems: [
+    {
+      code: "01",
+      name: "Foundation",
+      bestFor: "New or early brands that need to look real and be findable.",
+      solves:
+        "Looking unserious, being invisible on Google, having no professional front door.",
+      includes: [
+        "Business documentation pack (profile, offer sheet, simple terms)",
+        "Google Business Profile setup and optimization",
+        "Clean, mobile-first website",
+        "WhatsApp click-to-chat + basic auto-greeting",
+        "Google Maps visibility and basic NAP consistency",
+        "Handover training",
+      ],
+    },
+    {
+      code: "02",
+      name: "Growth",
+      bestFor: "Brands already selling but drowning in WhatsApp and losing customers.",
+      solves:
+        "Lost messages, forgotten customers, no follow-up system, running the business from memory.",
+      includes: [
+        "Everything in Foundation",
+        "Simple customer and order database",
+        "Professional chatbot / auto-responder for FAQs",
+        "Basic automation: inquiry → notify you + log in database",
+        "Simple admin view for leads and orders",
+        "Notion workspace starter for assets and SOPs",
+        "Handover + light support window",
+      ],
+    },
+    {
+      code: "03",
+      name: "Operating System",
+      bestFor: "Serious small brands ready to professionalize and prepare for scale.",
+      solves: "The entire daily chaos of running a small brand without systems.",
+      includes: [
+        "Everything in Growth",
+        "Full mini operating system (website + database + chatbot + automations)",
+        "Custom workflow for your sales process",
+        "Lightweight internal dashboard",
+        "Document and knowledge system structure",
+        "Team access setup if you have help",
+        "Extended support + optimization review",
+      ],
+    },
+  ] as const,
+
+  howWeWork: [
+    "Short discovery (15–20 minutes) — how you sell today and where the leaks are.",
+    "Clear proposal with exact deliverables and timeline.",
+    "Build and configure using modern, reliable tools.",
+    "Handover training so you or your assistant can run the system.",
+    "Light support window so you are not abandoned after delivery.",
+  ] as const,
+
+  whyHubil:
+    "Hubil Group is led by an institutional architect who designs real operating systems — not just websites. The same discipline used for multi-tier governance and community systems is applied to your small business. Structure that lasts, not temporary fixes.",
+
   primaryWhatsApp: "2348036984766",
   primaryWhatsAppDisplay: "+234 803 698 4766",
   primaryWhatsAppUrl: "https://wa.me/2348036984766",
   secondaryPhoneDisplay: "+234 814 209 1143",
   email: "mrzulqarnainnadabo@gmail.com",
 
-  // CUSTOMIZE: Keep this line when deploying Hubil-built client sites.
   systemsDashboardUrl: "https://www.notion.so/3c25db88ef4681758f60eb443e969f9b",
 
-  // Privacy / trust line shown near the form
   privacyNote:
     "Your answers go only to Hubil Group. We do not sell or share your data. A specialist reviews the record and continues with you on WhatsApp if there is a fit.",
 
-  // CUSTOMIZE: Replace all image paths together if a client has their own visual library.
   images: {
     hubilLogo: "/hubil-logo.svg",
     foundationMark: "/hubil-logo.svg",
@@ -60,12 +120,10 @@ export const SITE = {
   },
 } as const;
 
-/** Default WhatsApp opener when no diagnostic context is available. */
 export const PRIMARY_WHATSAPP_MESSAGE = encodeURIComponent(
-  "Hello Hubil Group — I just completed the FirstLine diagnostic and I want to continue from here. I need help looking more established and bringing in better clients.",
+  "Hello Hubil Group — I completed the FirstLine diagnostic. I want a short discovery about which operating system fits my business (Foundation, Growth, or full Operating System).",
 );
 
-/** Build a WhatsApp deep-link that carries the owner's diagnostic context. */
 export function buildWhatsAppContinueUrl(payload: {
   fullName: string;
   businessName: string;
@@ -76,17 +134,17 @@ export function buildWhatsAppContinueUrl(payload: {
   whatsappNumber: string;
 }): string {
   const lines = [
-    "Hello Hubil Group — I just completed the FirstLine Business Presence Diagnostic.",
+    "Hello Hubil Group — I completed the FirstLine Small Business Operating Systems Diagnostic.",
     "",
     `Name: ${payload.fullName}`,
     `Business: ${payload.businessName}`,
     `Type: ${payload.businessType}`,
     `How customers find me: ${payload.discoveryChannel}`,
-    `Biggest friction: ${payload.customerFrustration}`,
+    `Biggest leak / friction: ${payload.customerFrustration}`,
     `Readiness: ${payload.readinessWindow}`,
     `My WhatsApp: ${payload.whatsappNumber}`,
     "",
-    "I want to continue here and talk about how to stop losing customers and attract better ones.",
+    "Please review and tell me honestly which system fits — Foundation, Growth, or Operating System — and what we should do next.",
   ];
   return `https://wa.me/${SITE.primaryWhatsApp}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
