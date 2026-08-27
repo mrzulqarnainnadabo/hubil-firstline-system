@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" role="img" aria-label="Hubil Group">
+  <title>Hubil Group</title>
+  <!-- HG monogram inspired by official mark: H in red, G in black, interlocking arc -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- H stem left -->
+    <path d="M28 28 V152" stroke="#B8121C" stroke-width="28"/>
+    <!-- H crossbar into arc -->
+    <path d="M28 90 H98" stroke="#B8121C" stroke-width="26"/>
+    <!-- Interlocking arc (red upper left of G) -->
+    <path d="M98 90 A52 52 0 0 1 150 38" stroke="#B8121C" stroke-width="26"/>
+    <!-- G body -->
+    <path d="M150 38 A52 52 0 1 1 98 142" stroke="#111111" stroke-width="26"/>
+    <!-- G inward bar -->
+    <path d="M150 90 H118" stroke="#111111" stroke-width="22"/>
+  </g>
+  <text x="120" y="188" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="0.12em">
+    <tspan fill="#111111">HUBIL </tspan><tspan fill="#B8121C">GROUP</tspan>
+  </text>
+</svg>
