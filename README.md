@@ -32,8 +32,13 @@ client/
     config/site.ts                 # Hubil/FirstLine identity and contact details
     config/diagnostic.ts           # Data model + live Notion property map
     pages/Home.tsx                 # Landing experience
+api/
+  diagnostic.ts                    # Vercel serverless POST /api/diagnostic
+  health.ts                        # Vercel serverless GET /api/health
+  lib/diagnostic.ts                # Shared schema + Notion helper
 server/
-  index.ts                         # Express: /api/health, /api/diagnostic → Notion
+  index.ts                         # Express (local / non-Vercel hosts)
+vercel.json                        # Static + serverless routing
 ```
 
 ## Customizing for a client
@@ -66,6 +71,24 @@ pnpm start
 | `GET` | `/api/health` | Health check; reports whether Notion is configured |
 | `POST` | `/api/diagnostic` | Submit a completed diagnostic (creates Hubil Clients page when configured) |
 
+## Deploy on Vercel (recommended)
+
+The project is ready for Vercel:
+
+1. In the [Vercel dashboard](https://vercel.com) create a new project and import **mrzulqarnainnadabo/hubil-firstline-system** (or reconnect the Git link if a project already exists).
+2. Framework preset can stay **Other**. `vercel.json` already sets build/install/output.
+3. Add environment variables:
+
+```env
+NOTION_API_KEY=secret_...
+NOTION_DATABASE_ID=86a2b54bbdf247b2831923cb6590aa82
+```
+
+4. Deploy. Every push to `main` will auto-deploy.
+5. Verify `https://your-app.vercel.app/api/health` returns `"notionConfigured": true` after the secrets are set.
+
+Serverless handlers live in `/api`. The Express server in `server/` remains available for local production-style runs or non-Vercel hosts.
+
 ## Notion → Hubil Clients
 
 The live database is **Hubil Clients**:
@@ -87,7 +110,7 @@ https://www.notion.so/86a2b54bbdf247b2831923cb6590aa82
 
 1. Create an internal integration at [notion.so/my-integrations](https://www.notion.so/my-integrations).
 2. Open **Hubil Clients** → ⋯ → Add connections → select your integration.
-3. Set on the deployment environment:
+3. Set on the deployment environment (Vercel → Settings → Environment Variables):
 
 ```env
 NOTION_API_KEY=secret_...
