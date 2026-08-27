@@ -3,9 +3,6 @@
  * --------------------------------------------------------------------------
  * Maps to the live Hubil Clients Notion database.
  * Database: https://www.notion.so/86a2b54bbdf247b2831923cb6590aa82
- *
- * Framed as a financial / growth problem-solving tool for Nigerian owners:
- * lost customers, weak discoverability, and readiness to tighten the system.
  */
 
 export const DIAGNOSTIC_SOURCE = "FirstLine Business Presence Diagnostic";
@@ -37,15 +34,16 @@ export const diagnosticQuestions = {
   businessType: {
     record: "01",
     eyebrow: "Business profile",
-    title: "What best describes the business you are running today?",
+    title: "What kind of serious business are you building?",
     helper:
-      "This helps us map the kind of clients and channels that usually pay in your category.",
+      "Choose the closest category. This helps us match the right client channels and operating system for how you actually sell.",
     options: [
-      "Fashion",
-      "Services",
-      "Food & Hospitality",
-      "Trade & Retail",
-      "Other",
+      "Professional / service business",
+      "Fashion or beauty brand",
+      "Food, catering or hospitality",
+      "Trade, retail or wholesale",
+      "Tech, digital or creative",
+      "Other serious small brand",
     ],
   },
   discoveryChannel: {
@@ -88,8 +86,8 @@ export const diagnosticQuestions = {
 } as const;
 
 /**
- * Live Hubil Clients property map (database 86a2b54b-bdf2-47b2-8319-23cb6590aa82).
- * Server normalizes select values (e.g. "Food & Hospitality" → "Food").
+ * Live Hubil Clients property map.
+ * Server normalizes select values to Hubil Clients options.
  */
 export const NOTION_PROPERTY_MAP = {
   businessName: { property: "Name", type: "title" },
@@ -105,6 +103,5 @@ export const NOTION_PROPERTY_MAP = {
   rawNotes: { property: "Raw Diagnostic Notes", type: "rich_text" },
 } as const;
 
-/** Hubil Clients database ID — set as NOTION_DATABASE_ID in production. */
 export const HUBIL_CLIENTS_DATABASE_ID =
   "86a2b54b-bdf2-47b2-8319-23cb6590aa82";
