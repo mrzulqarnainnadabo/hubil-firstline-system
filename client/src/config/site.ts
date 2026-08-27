@@ -52,8 +52,8 @@ export const SITE = {
 
   // CUSTOMIZE: Replace all image paths together if a client has their own visual library.
   images: {
-    hubilLogo: "/hubil-logo.jpg",
-    foundationMark: "/hubil-logo.jpg",
+    hubilLogo: "/hubil-logo.svg",
+    foundationMark: "/hubil-logo.svg",
     hero: "/manus-storage/hubil-hero-marketplace_55e4d25d.jpg",
     about: "/manus-storage/hubil-about-craft_9ceaad21.jpg",
     serviceDetail: "/manus-storage/hubil-service-detail_f45ba0e4.jpg",
