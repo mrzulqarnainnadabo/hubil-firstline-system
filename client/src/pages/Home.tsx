@@ -1,28 +1,67 @@
 /**
- * Design context — FirstLine Business Presence Diagnostic. The page behaves
- * as a selective professional assessment, using the FirstLine ledger system.
+ * FirstLine landing — framed as a practical financial / client-growth tool
+ * for Nigerian business owners. Diagnostic first, conversation continues on WhatsApp.
  */
 import { DiagnosticFlow } from "@/components/DiagnosticFlow";
 import { DIAGNOSTIC_SOURCE, DiagnosticResponse } from "@/config/diagnostic";
-import { SITE } from "@/config/site";
-import { ArrowUpRight, Check, ChevronRight, Clock3, Mail, Menu, MessageCircle, Phone, ShieldCheck, X } from "lucide-react";
+import { SITE, PRIMARY_WHATSAPP_MESSAGE } from "@/config/site";
+import {
+  ArrowUpRight,
+  Check,
+  ChevronRight,
+  Clock3,
+  Mail,
+  Menu,
+  MessageCircle,
+  Phone,
+  ShieldCheck,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 
-const directWhatsApp = SITE.primaryWhatsAppUrl;
+const directWhatsApp = `${SITE.primaryWhatsAppUrl}?text=${PRIMARY_WHATSAPP_MESSAGE}`;
 
 const systemRecords = [
-  { code: "A1", title: "Business context", copy: "The category and operating reality behind your offer." },
-  { code: "A2", title: "Customer access", copy: "How interest currently becomes an order, booking, or conversation." },
-  { code: "A3", title: "Readiness signal", copy: "The pressure point and timeline that shape a useful next step." },
+  {
+    code: "A1",
+    title: "Where clients find you",
+    copy: "WhatsApp, Instagram, TikTok, Facebook, Google, walk-ins — and which path actually pays.",
+  },
+  {
+    code: "A2",
+    title: "Where money leaks",
+    copy: "Missed messages, weak first impression, no follow-up, or customers who cannot find you.",
+  },
+  {
+    code: "A3",
+    title: "What happens next",
+    copy: "A clear readiness signal so Hubil can continue with you on WhatsApp, not start from zero.",
+  },
 ];
 
-function SignalLabel({ children, light = false }: { children: string; light?: boolean }) {
-  return <div className={`mb-5 flex items-center gap-3 text-[0.65rem] font-extrabold uppercase tracking-[0.2em] ${light ? "text-[#F5B8BB]" : "text-[#B8121C]"}`}><span className="h-px w-9 bg-[#B8121C]" />{children}</div>;
+function SignalLabel({
+  children,
+  light = false,
+}: {
+  children: string;
+  light?: boolean;
+}) {
+  return (
+    <div
+      className={`mb-5 flex items-center gap-3 text-[0.65rem] font-extrabold uppercase tracking-[0.2em] ${
+        light ? "text-[#F5B8BB]" : "text-[#B8121C]"
+      }`}
+    >
+      <span className="h-px w-9 bg-[#B8121C]" />
+      {children}
+    </div>
+  );
 }
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [lastDiagnostic, setLastDiagnostic] = useState<DiagnosticResponse | null>(null);
+  const [lastDiagnostic, setLastDiagnostic] =
+    useState<DiagnosticResponse | null>(null);
 
   const jumpTo = (id: string) => {
     setMenuOpen(false);
@@ -30,7 +69,6 @@ export default function Home() {
   };
 
   function recordDiagnostic(response: DiagnosticResponse) {
-    // The complete, typed response is available here for the future Notion API route.
     setLastDiagnostic(response);
   }
 
@@ -38,16 +76,87 @@ export default function Home() {
     <div className="min-h-screen overflow-x-clip bg-[#F8F6F1] text-[#0D2037]">
       <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#0D2037]/95 text-white backdrop-blur-xl">
         <div className="mx-auto flex h-[76px] max-w-[1480px] items-center justify-between px-5 sm:px-8 lg:px-12 xl:px-16">
-          <a href="#top" className="group flex items-center gap-3" aria-label="Go to FirstLine Business Presence Diagnostic homepage">
-            <span className="grid h-10 w-10 place-items-center border border-[#E14C53]/55 bg-[#B8121C]/15 p-1.5 shadow-lg shadow-black/10"><img src={SITE.images.foundationMark} alt="" className="h-full w-full object-contain" /></span>
-            <span className="leading-none"><span className="font-display block text-[1.45rem] tracking-[-0.06em] text-white transition-colors group-hover:text-[#F5B8BB]">FirstLine</span><span className="mt-1 block text-[0.5rem] font-extrabold uppercase tracking-[0.18em] text-white/55">Business Presence Diagnostic</span></span>
-            <span className="hidden border-l border-white/20 pl-3 text-[0.51rem] font-bold uppercase leading-3 tracking-[0.14em] text-white/50 xl:block">A Hubil<br />Group System</span>
+          <a
+            href="#top"
+            className="group flex items-center gap-3"
+            aria-label="Hubil Group FirstLine homepage"
+          >
+            <span className="grid h-11 w-11 place-items-center overflow-hidden border border-[#E14C53]/55 bg-white p-1 shadow-lg shadow-black/10">
+              <img
+                src={SITE.images.hubilLogo}
+                alt="Hubil Group"
+                className="h-full w-full object-contain"
+              />
+            </span>
+            <span className="leading-none">
+              <span className="font-display block text-[1.45rem] tracking-[-0.06em] text-white transition-colors group-hover:text-[#F5B8BB]">
+                FirstLine
+              </span>
+              <span className="mt-1 block text-[0.5rem] font-extrabold uppercase tracking-[0.18em] text-white/55">
+                {SITE.systemDescriptor}
+              </span>
+            </span>
+            <span className="hidden border-l border-white/20 pl-3 text-[0.51rem] font-bold uppercase leading-3 tracking-[0.14em] text-white/50 xl:block">
+              A Hubil
+              <br />
+              Group System
+            </span>
           </a>
-          <nav className="hidden items-center gap-8 text-[0.78rem] font-extrabold text-white/75 lg:flex" aria-label="Primary navigation"><a href="#diagnostic" className="transition-colors hover:text-white">The diagnostic</a><a href="#fit" className="transition-colors hover:text-white">Fit criteria</a><a href="#contact" className="transition-colors hover:text-white">Contact Hubil</a></nav>
-          <button type="button" onClick={() => jumpTo("#diagnostic")} className="hidden items-center gap-2 bg-[#B8121C] px-4 py-2.5 text-xs font-extrabold text-white transition-all duration-200 hover:bg-[#D02832] active:scale-[0.97] sm:inline-flex"><ShieldCheck size={16} /> Start diagnostic</button>
-          <button type="button" onClick={() => setMenuOpen(!menuOpen)} className="grid h-10 w-10 place-items-center text-white transition-colors hover:bg-white/10 lg:hidden" aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
+          <nav
+            className="hidden items-center gap-8 text-[0.78rem] font-extrabold text-white/75 lg:flex"
+            aria-label="Primary navigation"
+          >
+            <a href="#diagnostic" className="transition-colors hover:text-white">
+              The diagnostic
+            </a>
+            <a href="#fit" className="transition-colors hover:text-white">
+              What you get
+            </a>
+            <a href="#contact" className="transition-colors hover:text-white">
+              Contact Hubil
+            </a>
+          </nav>
+          <button
+            type="button"
+            onClick={() => jumpTo("#diagnostic")}
+            className="hidden items-center gap-2 bg-[#B8121C] px-4 py-2.5 text-xs font-extrabold text-white transition-all duration-200 hover:bg-[#D02832] active:scale-[0.97] sm:inline-flex"
+          >
+            <ShieldCheck size={16} /> Start diagnostic
+          </button>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="grid h-10 w-10 place-items-center text-white transition-colors hover:bg-white/10 lg:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
-        {menuOpen && <nav id="mobile-navigation" className="border-t border-white/10 bg-[#0D2037] px-5 pb-5 pt-3 lg:hidden" aria-label="Mobile navigation">{[["#diagnostic", "Start the diagnostic"], ["#fit", "Fit criteria"], ["#contact", "Contact Hubil"]].map(([href, label]) => <button key={href} type="button" onClick={() => jumpTo(href)} className="flex w-full items-center justify-between border-b border-white/10 py-4 text-left text-sm font-bold text-white">{label}<ChevronRight size={18} className="text-[#E14C53]" /></button>)}</nav>}
+        {menuOpen && (
+          <nav
+            id="mobile-navigation"
+            className="border-t border-white/10 bg-[#0D2037] px-5 pb-5 pt-3 lg:hidden"
+            aria-label="Mobile navigation"
+          >
+            {[
+              ["#diagnostic", "Start the diagnostic"],
+              ["#fit", "What you get"],
+              ["#contact", "Contact Hubil"],
+            ].map(([href, label]) => (
+              <button
+                key={href}
+                type="button"
+                onClick={() => jumpTo(href)}
+                className="flex w-full items-center justify-between border-b border-white/10 py-4 text-left text-sm font-bold text-white"
+              >
+                {label}
+                <ChevronRight size={18} className="text-[#E14C53]" />
+              </button>
+            ))}
+          </nav>
+        )}
       </header>
 
       <main id="top">
@@ -56,29 +165,369 @@ export default function Home() {
           <div className="mx-auto grid min-h-[665px] max-w-[1480px] lg:grid-cols-[0.94fr_1.06fr]">
             <div className="relative z-10 flex flex-col justify-between px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-20 lg:px-12 lg:pb-14 lg:pt-24 xl:px-16">
               <div className="animate-rise max-w-[680px]">
-                <div className="mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-[#F5B8BB]"><span className="inline-flex items-center gap-2"><span className="status-dot h-2 w-2 rounded-full bg-[#E14C53]" /> Admissions open</span><span className="h-3 w-px bg-white/25" /> <span>Diagnostic file FL–01</span></div>
-                <h1 className="font-display max-w-[660px] text-[3.2rem] leading-[0.94] tracking-[-0.05em] text-white sm:text-[4.45rem] lg:text-[5.15rem] xl:text-[5.75rem]">Look established. Stay reachable. Keep moving.</h1>
-                <p className="mt-7 max-w-xl text-[1rem] leading-7 text-slate-200 sm:text-lg sm:leading-8">The FirstLine Business Presence Diagnostic helps Hubil assess whether your business is ready for a proper customer-facing system — before any system is proposed.</p>
-                <div className="mt-9 flex flex-col gap-3 sm:flex-row"><button type="button" onClick={() => jumpTo("#diagnostic")} className="group inline-flex items-center justify-center gap-3 bg-[#B8121C] px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#D02832] active:scale-[0.97]"><ShieldCheck size={20} /> Start the Diagnostic <ArrowUpRight size={17} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button><button type="button" onClick={() => jumpTo("#fit")} className="inline-flex items-center justify-center gap-2 border border-white/20 px-6 py-4 text-sm font-extrabold text-white transition-colors duration-200 hover:border-white hover:bg-white/10 active:scale-[0.97]">See if FirstLine fits <ChevronRight size={17} /></button></div>
+                <div className="mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-[#F5B8BB]">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="status-dot h-2 w-2 rounded-full bg-[#E14C53]" />{" "}
+                    Open for serious owners
+                  </span>
+                  <span className="h-3 w-px bg-white/25" />
+                  <span>Diagnostic file FL–01</span>
+                </div>
+                <h1 className="font-display max-w-[700px] text-[2.85rem] leading-[0.96] tracking-[-0.05em] text-white sm:text-[4.1rem] lg:text-[4.85rem] xl:text-[5.35rem]">
+                  {SITE.headline}
+                </h1>
+                <p className="mt-7 max-w-xl text-[1rem] leading-7 text-slate-200 sm:text-lg sm:leading-8">
+                  {SITE.tagline}
+                </p>
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={() => jumpTo("#diagnostic")}
+                    className="group inline-flex items-center justify-center gap-3 bg-[#B8121C] px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#D02832] active:scale-[0.97]"
+                  >
+                    <ShieldCheck size={20} /> Start the Diagnostic{" "}
+                    <ArrowUpRight
+                      size={17}
+                      className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => jumpTo("#fit")}
+                    className="inline-flex items-center justify-center gap-2 border border-white/20 px-6 py-4 text-sm font-extrabold text-white transition-colors duration-200 hover:border-white hover:bg-white/10 active:scale-[0.97]"
+                  >
+                    See how it helps <ChevronRight size={17} />
+                  </button>
+                </div>
               </div>
-              <div className="mt-12 grid max-w-[650px] gap-4 border-t border-white/15 pt-5 sm:grid-cols-3 sm:gap-5 lg:mt-8"><div className="flex items-center gap-3"><span className="font-display text-3xl text-[#E14C53]">05</span><p className="text-xs font-semibold leading-5 text-slate-300">Focused assessment records.</p></div><div className="flex items-center gap-3"><Clock3 size={18} className="text-[#E14C53]" /><p className="text-xs font-semibold leading-5 text-slate-300">Designed to take a few considered minutes.</p></div><div className="flex items-center gap-3"><ShieldCheck size={18} className="text-[#E14C53]" /><p className="text-xs font-semibold leading-5 text-slate-300">For businesses seeking a proper next step.</p></div></div>
+              <div className="mt-12 grid max-w-[680px] gap-4 border-t border-white/15 pt-5 sm:grid-cols-3 sm:gap-5 lg:mt-8">
+                <div className="flex items-center gap-3">
+                  <span className="font-display text-3xl text-[#E14C53]">05</span>
+                  <p className="text-xs font-semibold leading-5 text-slate-300">
+                    Short records. Real answers.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Clock3 size={18} className="text-[#E14C53]" />
+                  <p className="text-xs font-semibold leading-5 text-slate-300">
+                    A few focused minutes on your phone.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MessageCircle size={18} className="text-[#E14C53]" />
+                  <p className="text-xs font-semibold leading-5 text-slate-300">
+                    Continues on WhatsApp with context.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="relative min-h-[340px] lg:min-h-0"><img src={SITE.images.hero} alt="Nigerian entrepreneur ready to welcome customers into her business" className="absolute inset-0 h-full w-full object-cover object-[70%_center]" /><div className="absolute inset-0 bg-gradient-to-t from-[#0D2037]/80 via-[#0D2037]/5 to-transparent lg:bg-gradient-to-r lg:from-[#0D2037]/60 lg:via-transparent lg:to-transparent" /><div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-5 pb-5 sm:px-8 sm:pb-8 lg:left-auto lg:w-[74%] lg:px-10"><div className="max-w-[254px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md"><p className="text-[0.58rem] font-bold uppercase tracking-[0.17em] text-[#F5B8BB]">Field note 01 · business readiness</p><p className="mt-1 text-sm font-bold leading-5 text-white">A serious presence begins before the first reply.</p></div><span className="font-display text-6xl text-white/25">01</span></div></div>
+            <div className="relative min-h-[340px] lg:min-h-0">
+              <img
+                src={SITE.images.hero}
+                alt="Nigerian entrepreneur ready to welcome customers into her business"
+                className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0D2037]/80 via-[#0D2037]/5 to-transparent lg:bg-gradient-to-r lg:from-[#0D2037]/60 lg:via-transparent lg:to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-5 pb-5 sm:px-8 sm:pb-8 lg:left-auto lg:w-[74%] lg:px-10">
+                <div className="max-w-[260px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md">
+                  <p className="text-[0.58rem] font-bold uppercase tracking-[0.17em] text-[#F5B8BB]">
+                    Field note 01 · revenue readiness
+                  </p>
+                  <p className="mt-1 text-sm font-bold leading-5 text-white">
+                    Looking ready is part of how customers decide to pay.
+                  </p>
+                </div>
+                <span className="font-display text-6xl text-white/25">01</span>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="border-y border-[#D8D4CC] bg-[#ECE8DF] px-5 py-5 sm:px-8 lg:px-12 xl:px-16"><div className="mx-auto flex max-w-[1360px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><p className="flex items-center gap-3 text-sm font-extrabold text-[#0D2037]"><span className="grid h-8 w-8 place-items-center bg-[#B8121C] text-white"><ShieldCheck size={16} /></span>This is a fit assessment, not a sales funnel.</p><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#526174]">Calm · considered · business-first</p></div></section>
+        <section className="border-y border-[#D8D4CC] bg-[#ECE8DF] px-5 py-5 sm:px-8 lg:px-12 xl:px-16">
+          <div className="mx-auto flex max-w-[1360px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="flex items-center gap-3 text-sm font-extrabold text-[#0D2037]">
+              <span className="grid h-8 w-8 place-items-center bg-[#B8121C] text-white">
+                <ShieldCheck size={16} />
+              </span>
+              A practical assessment — then we continue on WhatsApp.
+            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#526174]">
+              Calm · useful · owner-first
+            </p>
+          </div>
+        </section>
 
-        <section id="diagnostic" className="bg-[#F8F6F1] py-20 sm:py-28 lg:py-32"><div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12"><div className="grid gap-10 lg:grid-cols-[0.55fr_0.45fr] lg:items-end"><div><SignalLabel>Start the assessment</SignalLabel><h2 className="font-display max-w-3xl text-4xl leading-[1.02] tracking-[-0.04em] text-[#0D2037] sm:text-6xl">FirstLine Business Presence Diagnostic.</h2></div><p className="max-w-md text-base leading-7 text-[#526174] lg:justify-self-end">The diagnostic gives Hubil a clean first record of your current visibility, customer access, and readiness. It is designed to identify fit, not manufacture urgency.</p></div><div className="mt-12"><DiagnosticFlow whatsappUrl={directWhatsApp} onComplete={recordDiagnostic} /></div>{lastDiagnostic && <p className="sr-only">Diagnostic record completed for {lastDiagnostic.businessName} from {DIAGNOSTIC_SOURCE}.</p>}</div></section>
+        <section className="bg-white py-16 sm:py-20">
+          <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
+            <SignalLabel>What this tool is for</SignalLabel>
+            <h2 className="font-display max-w-3xl text-3xl leading-[1.05] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
+              Built to solve money problems, not to collect empty leads.
+            </h2>
+            <div className="mt-10 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC] sm:grid-cols-3">
+              {SITE.valuePillars.map((pillar) => (
+                <article
+                  key={pillar.title}
+                  className="bg-[#F8F6F1] px-6 py-7"
+                >
+                  <h3 className="text-sm font-extrabold text-[#0D2037]">
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-[#526174]">
+                    {pillar.copy}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
-        <section id="fit" className="bg-white py-20 sm:py-28 lg:py-32"><div className="mx-auto grid max-w-[1480px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.4fr_0.6fr] lg:gap-20 lg:px-12 xl:px-16"><div><SignalLabel>How we assess fit</SignalLabel><h2 className="font-display max-w-sm text-4xl leading-[1.03] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">Clarity before construction.</h2><div className="mt-10 border-l-2 border-[#B8121C] pl-5"><p className="text-sm font-bold leading-6 text-[#0D2037]">FirstLine is for brands that want a working customer front line, not simply another page on the internet.</p></div></div><div><p className="max-w-2xl text-xl leading-8 text-[#314154] sm:text-2xl sm:leading-9">A business does not need to be large to be properly positioned. It needs an honest view of how customers reach it, where trust breaks down, and whether the owner is ready to tighten the system.</p><div className="mt-10 border-y border-[#D8D4CC]">{systemRecords.map((item) => <article key={item.code} className="grid gap-4 border-b border-[#D8D4CC] py-6 last:border-0 sm:grid-cols-[72px_0.72fr_1fr] sm:items-start sm:gap-7"><div className="flex items-center gap-2 text-[#B8121C]"><ShieldCheck size={17} /><span className="font-display text-2xl tracking-[-0.05em]">{item.code}</span></div><h3 className="text-sm font-extrabold text-[#0D2037]">{item.title}</h3><p className="text-sm leading-6 text-[#526174]">{item.copy}</p></article>)}</div></div></div></section>
+        <section id="diagnostic" className="bg-[#F8F6F1] py-20 sm:py-28 lg:py-32">
+          <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
+            <div className="grid gap-10 lg:grid-cols-[0.55fr_0.45fr] lg:items-end">
+              <div>
+                <SignalLabel>Start the assessment</SignalLabel>
+                <h2 className="font-display max-w-3xl text-4xl leading-[1.02] tracking-[-0.04em] text-[#0D2037] sm:text-6xl">
+                  FirstLine diagnostic.
+                </h2>
+              </div>
+              <p className="max-w-md text-base leading-7 text-[#526174] lg:justify-self-end">
+                Answer five short records about your business, where clients find
+                you, and where revenue is leaking. When you finish, continue on
+                WhatsApp with your answers already summarised for Hubil.
+              </p>
+            </div>
+            <div className="mt-12">
+              <DiagnosticFlow
+                whatsappUrl={directWhatsApp}
+                onComplete={recordDiagnostic}
+              />
+            </div>
+            {lastDiagnostic && (
+              <p className="sr-only">
+                Diagnostic record completed for {lastDiagnostic.businessName}{" "}
+                from {DIAGNOSTIC_SOURCE}.
+              </p>
+            )}
+          </div>
+        </section>
 
-        <section className="bg-[#F8F6F1] py-20 sm:py-28 lg:py-32"><div className="mx-auto grid max-w-[1480px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-20 lg:px-12 xl:px-16"><div className="relative"><div className="overflow-hidden bg-[#D9D3C9]"><img src={SITE.images.about} alt="Nigerian small-business owner preparing a customer order at a working counter" className="aspect-[4/4.4] h-full w-full object-cover" /></div><div className="absolute left-0 top-5 border-l-2 border-[#B8121C] bg-[#F8F6F1]/95 px-4 py-3 backdrop-blur-sm"><p className="text-[0.58rem] font-extrabold uppercase tracking-[0.17em] text-[#B8121C]">Field note 02</p><p className="mt-1 text-xs font-bold text-[#0D2037]">Customer-facing operations</p></div><div className="absolute -bottom-6 right-5 max-w-[220px] border-t-2 border-[#B8121C] bg-[#0D2037] px-5 py-5 text-white shadow-2xl sm:right-8"><p className="text-[0.59rem] font-extrabold uppercase tracking-[0.15em] text-[#F5B8BB]">The standard</p><p className="mt-2 text-sm font-bold leading-5">Your business should feel intentional in the hands of your customer.</p></div></div><div className="lg:pl-4"><SignalLabel>What FirstLine protects</SignalLabel><h2 className="font-display text-4xl leading-[1.04] tracking-[-0.04em] text-[#0D2037] sm:text-6xl">Professional presence, without performance.</h2><p className="mt-7 max-w-xl text-base leading-7 text-[#526174] sm:text-lg">A clear system gives a business owner room to focus on delivery. Customers see an established front line; the owner sees fewer missed messages, clearer next steps, and a brand that is easier to take seriously.</p><div className="mt-8 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC] sm:grid-cols-2">{["Clear route to contact", "Stronger first impression", "Less customer confusion", "More intentional follow-up"].map((item) => <div key={item} className="flex items-center gap-3 bg-[#F8F6F1] px-5 py-4 text-sm font-extrabold text-[#0D2037]"><Check size={17} className="text-[#B8121C]" />{item}</div>)}</div><div className="mt-8 border-l-2 border-[#B8121C] pl-5"><p className="text-sm leading-6 text-[#526174]"><span className="font-extrabold text-[#0D2037]">Led by {SITE.managingDirector}.</span> Hubil Group approaches small-business presence as an operational system, not surface decoration.</p></div></div></div></section>
+        <section id="fit" className="bg-white py-20 sm:py-28 lg:py-32">
+          <div className="mx-auto grid max-w-[1480px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.4fr_0.6fr] lg:gap-20 lg:px-12 xl:px-16">
+            <div>
+              <SignalLabel>How we use your answers</SignalLabel>
+              <h2 className="font-display max-w-sm text-4xl leading-[1.03] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
+                From diagnosis to a clearer client system.
+              </h2>
+              <div className="mt-10 border-l-2 border-[#B8121C] pl-5">
+                <p className="text-sm font-bold leading-6 text-[#0D2037]">
+                  FirstLine is for owners who want more serious clients and fewer
+                  lost conversations — not another pretty page that sits unused.
+                </p>
+              </div>
+            </div>
+            <div>
+              <p className="max-w-2xl text-xl leading-8 text-[#314154] sm:text-2xl sm:leading-9">
+                Search engines and social platforms only help when your business
+                looks established and is easy to reach. We use your diagnostic to
+                see where presence, trust, and follow-up are breaking — then we
+                continue that conversation with you on WhatsApp.
+              </p>
+              <div className="mt-10 border-y border-[#D8D4CC]">
+                {systemRecords.map((item) => (
+                  <article
+                    key={item.code}
+                    className="grid gap-4 border-b border-[#D8D4CC] py-6 last:border-0 sm:grid-cols-[72px_0.72fr_1fr] sm:items-start sm:gap-7"
+                  >
+                    <div className="flex items-center gap-2 text-[#B8121C]">
+                      <ShieldCheck size={17} />
+                      <span className="font-display text-2xl tracking-[-0.05em]">
+                        {item.code}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-extrabold text-[#0D2037]">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm leading-6 text-[#526174]">{item.copy}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <section id="contact" className="relative overflow-hidden bg-[#0D2037] py-20 text-white sm:py-24"><div className="absolute inset-0 opacity-[0.12]"><img src={SITE.images.serviceDetail} alt="" className="h-full w-full object-cover mix-blend-luminosity" /></div><div className="relative mx-auto grid max-w-[1480px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20 lg:px-12 xl:px-16"><div><SignalLabel light>Hubil Group</SignalLabel><h2 className="font-display text-4xl leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl">The diagnostic is the proper first route.</h2><p className="mt-6 max-w-md text-base leading-7 text-slate-300">If there is a time-sensitive reason to speak directly, the Hubil Group contact routes remain available. WhatsApp is intentionally secondary to the assessment.</p></div><div className="overflow-hidden border border-white/15 text-sm"><div className="flex items-center justify-between border-b border-white/15 bg-white/[0.06] px-5 py-3"><p className="text-[0.58rem] font-extrabold uppercase tracking-[0.17em] text-[#F5B8BB]">FirstLine operational panel</p><span className="inline-flex items-center gap-2 text-[0.56rem] font-extrabold uppercase tracking-[0.14em] text-slate-300"><span className="status-dot h-1.5 w-1.5 rounded-full bg-[#E14C53]" /> Support route open</span></div><div className="grid sm:grid-cols-3"><a href={directWhatsApp} target="_blank" rel="noreferrer" className="group flex items-center gap-3 border-b border-white/15 px-5 py-5 text-white transition-colors hover:bg-white/5 sm:border-b-0 sm:border-r"><MessageCircle size={19} className="text-[#E14C53]" /><span><span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">WhatsApp</span><span className="mt-1 block text-xs font-bold">{SITE.primaryWhatsAppDisplay}</span></span></a><div className="flex items-center gap-3 border-b border-white/15 px-5 py-5 sm:border-b-0 sm:border-r"><Phone size={19} className="text-[#E14C53]" /><span><span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">Secondary line</span><span className="mt-1 block text-xs font-bold">{SITE.secondaryPhoneDisplay}</span></span></div><a href={`mailto:${SITE.email}`} className="flex items-center gap-3 px-5 py-5 text-slate-200 transition-colors hover:bg-white/5"><Mail size={19} className="text-[#E14C53]" /><span><span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">Email</span><span className="mt-1 block break-all text-xs font-bold">{SITE.email}</span></span></a></div></div></div></section>
+        <section className="bg-[#F8F6F1] py-20 sm:py-28 lg:py-32">
+          <div className="mx-auto grid max-w-[1480px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-20 lg:px-12 xl:px-16">
+            <div className="relative">
+              <div className="overflow-hidden bg-[#D9D3C9]">
+                <img
+                  src={SITE.images.about}
+                  alt="Nigerian small-business owner preparing a customer order at a working counter"
+                  className="aspect-[4/4.4] h-full w-full object-cover"
+                />
+              </div>
+              <div className="absolute left-0 top-5 border-l-2 border-[#B8121C] bg-[#F8F6F1]/95 px-4 py-3 backdrop-blur-sm">
+                <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.17em] text-[#B8121C]">
+                  Field note 02
+                </p>
+                <p className="mt-1 text-xs font-bold text-[#0D2037]">
+                  Customer-facing operations
+                </p>
+              </div>
+              <div className="absolute -bottom-6 right-5 max-w-[220px] border-t-2 border-[#B8121C] bg-[#0D2037] px-5 py-5 text-white shadow-2xl sm:right-8">
+                <p className="text-[0.59rem] font-extrabold uppercase tracking-[0.15em] text-[#F5B8BB]">
+                  The standard
+                </p>
+                <p className="mt-2 text-sm font-bold leading-5">
+                  Your business should feel intentional in the hands of your
+                  customer.
+                </p>
+              </div>
+            </div>
+            <div className="lg:pl-4">
+              <SignalLabel>What FirstLine protects</SignalLabel>
+              <h2 className="font-display text-4xl leading-[1.04] tracking-[-0.04em] text-[#0D2037] sm:text-6xl">
+                Fewer lost customers. Stronger first impression.
+              </h2>
+              <p className="mt-7 max-w-xl text-base leading-7 text-[#526174] sm:text-lg">
+                A clear presence system gives you room to deliver. Customers see
+                an established front line; you see fewer missed chats, clearer
+                next steps, and a brand that is easier to take seriously on
+                Instagram, TikTok, Facebook, X, and Google.
+              </p>
+              <div className="mt-8 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC] sm:grid-cols-2">
+                {[
+                  "Clear route to contact",
+                  "Stronger first impression",
+                  "Less customer confusion",
+                  "Follow-up that does not disappear",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-3 bg-[#F8F6F1] px-5 py-4 text-sm font-extrabold text-[#0D2037]"
+                  >
+                    <Check size={17} className="text-[#B8121C]" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 border-l-2 border-[#B8121C] pl-5">
+                <p className="text-sm leading-6 text-[#526174]">
+                  <span className="font-extrabold text-[#0D2037]">
+                    Led by {SITE.managingDirector}.
+                  </span>{" "}
+                  Hubil Group treats small-business presence as an operational
+                  system — not decoration.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="contact"
+          className="relative overflow-hidden bg-[#0D2037] py-20 text-white sm:py-24"
+        >
+          <div className="absolute inset-0 opacity-[0.12]">
+            <img
+              src={SITE.images.serviceDetail}
+              alt=""
+              className="h-full w-full object-cover mix-blend-luminosity"
+            />
+          </div>
+          <div className="relative mx-auto grid max-w-[1480px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20 lg:px-12 xl:px-16">
+            <div>
+              <SignalLabel light>Hubil Group</SignalLabel>
+              <h2 className="font-display text-4xl leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl">
+                Prefer to talk first? WhatsApp is open.
+              </h2>
+              <p className="mt-6 max-w-md text-base leading-7 text-slate-300">
+                The diagnostic is the preferred first route so we have context.
+                If you need to speak now, use the routes below — we will still
+                treat it as a serious conversation, not a cold lead.
+              </p>
+            </div>
+            <div className="overflow-hidden border border-white/15 text-sm">
+              <div className="flex items-center justify-between border-b border-white/15 bg-white/[0.06] px-5 py-3">
+                <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.17em] text-[#F5B8BB]">
+                  FirstLine operational panel
+                </p>
+                <span className="inline-flex items-center gap-2 text-[0.56rem] font-extrabold uppercase tracking-[0.14em] text-slate-300">
+                  <span className="status-dot h-1.5 w-1.5 rounded-full bg-[#E14C53]" />{" "}
+                  Support route open
+                </span>
+              </div>
+              <div className="grid sm:grid-cols-3">
+                <a
+                  href={directWhatsApp}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center gap-3 border-b border-white/15 px-5 py-5 text-white transition-colors hover:bg-white/5 sm:border-b-0 sm:border-r"
+                >
+                  <MessageCircle size={19} className="text-[#E14C53]" />
+                  <span>
+                    <span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                      WhatsApp
+                    </span>
+                    <span className="mt-1 block text-xs font-bold">
+                      {SITE.primaryWhatsAppDisplay}
+                    </span>
+                  </span>
+                </a>
+                <div className="flex items-center gap-3 border-b border-white/15 px-5 py-5 sm:border-b-0 sm:border-r">
+                  <Phone size={19} className="text-[#E14C53]" />
+                  <span>
+                    <span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                      Secondary line
+                    </span>
+                    <span className="mt-1 block text-xs font-bold">
+                      {SITE.secondaryPhoneDisplay}
+                    </span>
+                  </span>
+                </div>
+                <a
+                  href={`mailto:${SITE.email}`}
+                  className="flex items-center gap-3 px-5 py-5 text-slate-200 transition-colors hover:bg-white/5"
+                >
+                  <Mail size={19} className="text-[#E14C53]" />
+                  <span>
+                    <span className="block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                      Email
+                    </span>
+                    <span className="mt-1 block break-all text-xs font-bold">
+                      {SITE.email}
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer className="bg-[#09182A] px-5 py-7 text-sm text-slate-400 sm:px-8 lg:px-12 xl:px-16"><div className="mx-auto flex max-w-[1360px] flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><p><span className="font-bold text-white">FirstLine</span> · A Hubil Group System</p><a href={SITE.systemsDashboardUrl} target="_blank" rel="noreferrer" className="text-xs font-bold text-slate-300 transition-colors hover:text-white">Powered by Hubil Group Systems <ArrowUpRight size={13} className="ml-1 inline" /></a></div></footer>
+      <footer className="bg-[#09182A] px-5 py-7 text-sm text-slate-400 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto flex max-w-[1360px] flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="flex items-center gap-3">
+            <img
+              src={SITE.images.hubilLogo}
+              alt="Hubil Group"
+              className="h-8 w-8 rounded-sm object-contain bg-white p-0.5"
+            />
+            <span>
+              <span className="font-bold text-white">FirstLine</span> · A Hubil
+              Group System
+            </span>
+          </p>
+          <a
+            href={SITE.systemsDashboardUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs font-bold text-slate-300 transition-colors hover:text-white"
+          >
+            Powered by Hubil Group Systems{" "}
+            <ArrowUpRight size={13} className="ml-1 inline" />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
