@@ -3,6 +3,9 @@
  * --------------------------------------------------------------------------
  * Maps to the live Hubil Clients Notion database.
  * Database: https://www.notion.so/86a2b54bbdf247b2831923cb6590aa82
+ *
+ * Framed as a financial / growth problem-solving tool for Nigerian owners:
+ * lost customers, weak discoverability, and readiness to tighten the system.
  */
 
 export const DIAGNOSTIC_SOURCE = "FirstLine Business Presence Diagnostic";
@@ -34,9 +37,9 @@ export const diagnosticQuestions = {
   businessType: {
     record: "01",
     eyebrow: "Business profile",
-    title: "What best describes your business right now?",
+    title: "What best describes the business you are running today?",
     helper:
-      "Choose the category that is closest to the business you are building today.",
+      "This helps us map the kind of clients and channels that usually pay in your category.",
     options: [
       "Fashion",
       "Services",
@@ -47,10 +50,10 @@ export const diagnosticQuestions = {
   },
   discoveryChannel: {
     record: "02",
-    eyebrow: "Customer access",
-    title: "How do most customers find you and place orders?",
+    eyebrow: "Where clients find you",
+    title: "How do most paying customers currently find you?",
     helper:
-      "This helps us understand the current route between interest and action.",
+      "Think about the path that actually brings money — WhatsApp, Instagram, TikTok, Facebook, Google, walk-ins, or a mix.",
     options: [
       "WhatsApp only",
       "Instagram",
@@ -61,11 +64,10 @@ export const diagnosticQuestions = {
   },
   customerFrustration: {
     record: "03",
-    eyebrow: "Operational pressure",
-    title:
-      "What is the biggest daily frustration when dealing with customers?",
+    eyebrow: "Where money leaks",
+    title: "What costs you the most customers or revenue right now?",
     helper:
-      "Select the issue that most affects confidence, speed, or customer experience.",
+      "Be honest. This is the friction we use to design a practical next step — not a sales pitch.",
     options: [
       "Lost messages",
       "Looking unprofessional",
@@ -76,11 +78,11 @@ export const diagnosticQuestions = {
   },
   readinessWindow: {
     record: "04",
-    eyebrow: "Readiness signal",
+    eyebrow: "Readiness to fix it",
     title:
-      "How ready are you to install a proper business presence system in the next 14–30 days?",
+      "How ready are you to install a clearer presence and client system in the next 14–30 days?",
     helper:
-      "There is no wrong answer. It helps us recommend the right next step, if there is one.",
+      "There is no wrong answer. It tells us whether to move now or map a lighter first step.",
     options: ["Ready now", "Exploring", "Just researching"],
   },
 } as const;
