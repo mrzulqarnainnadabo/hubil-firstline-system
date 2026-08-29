@@ -19,6 +19,14 @@
 - [x] Add MIT LICENSE, CI workflow, and `.env.example`.
 - [x] Connect Notion API to auto-create Hubil Clients pages (when env vars are set).
 - [x] Add Vercel serverless API routes (`api/diagnostic.ts`, `api/health.ts`) + `vercel.json` so the app deploys cleanly on Vercel.
-- [x] Set `NOTION_API_KEY` + `NOTION_DATABASE_ID` as Vercel environment variables.
-- [ ] Confirm production deploy succeeds and `/api/health` returns `notionConfigured: true`.
+- [ ] **CRITICAL (29 Aug 2026):** Set `NOTION_API_KEY` + `NOTION_DATABASE_ID=86a2b54bbdf247b2831923cb6590aa82` on Vercel (Production + Preview) and redeploy so `/api/health` returns `notionConfigured: true`.
+- [ ] Confirm production deploy succeeds and `https://hubil-firstline-system.vercel.app/api/health` returns `notionConfigured: true`.
 - [ ] Point a custom domain (optional).
+
+## Live status note
+
+As of 2026-08-29 the health endpoint reported:
+```json
+{ "status": "ok", "service": "hubil-firstline-system", "notionConfigured": false }
+```
+Until the two env vars are present on the Vercel project, new diagnostics are accepted but **not** written into Hubil Clients.
