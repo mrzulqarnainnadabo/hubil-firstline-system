@@ -1,123 +1,107 @@
 /**
- * FirstLine Diagnostic — Dual-track prospect model
+ * FirstLine Business Presence Diagnostic — Prospect Data Model
  * --------------------------------------------------------------------------
- * One public diagnostic for institutions and serious brands.
- * Maps to Hubil Clients Notion database.
+ * Maps to the live Hubil Clients Notion database.
  * Database: https://www.notion.so/86a2b54bbdf247b2831923cb6590aa82
  */
 
-export const DIAGNOSTIC_SOURCE = "FirstLine Diagnostic";
+export const DIAGNOSTIC_SOURCE = "FirstLine Business Presence Diagnostic";
 
 export type DiagnosticResponse = {
-  orgType: string;
-  statedOutcome: string;
-  dominantGap: string;
-  scale: string;
-  horizon: string;
-  role: string;
+  businessType: string;
+  discoveryChannel: string;
+  customerFrustration: string;
+  readinessWindow: string;
   fullName: string;
-  contact: string;
-  orgName: string;
-  heardAbout: string;
+  businessName: string;
+  whatsappNumber: string;
   source: typeof DIAGNOSTIC_SOURCE;
   submittedAt?: string;
 };
 
 export const emptyDiagnosticResponse: DiagnosticResponse = {
-  orgType: "",
-  statedOutcome: "",
-  dominantGap: "",
-  scale: "",
-  horizon: "",
-  role: "",
+  businessType: "",
+  discoveryChannel: "",
+  customerFrustration: "",
+  readinessWindow: "",
   fullName: "",
-  contact: "",
-  orgName: "",
-  heardAbout: "",
+  businessName: "",
+  whatsappNumber: "",
   source: DIAGNOSTIC_SOURCE,
 };
 
 export const diagnosticQuestions = {
-  orgType: {
+  businessType: {
     record: "01",
-    eyebrow: "What you are building",
-    title: "What are you building or running?",
+    eyebrow: "Business profile",
+    title: "What kind of serious business are you building?",
     helper:
-      "Choose the closest fit. This helps us match the right tone and track — nothing is ranked higher than anything else.",
+      "Choose the closest category. This helps us match the right client channels and operating system for how you actually sell.",
     options: [
-      "A government or public institution",
-      "A company or organisation with a team",
-      "A brand or business I’m growing",
-      "A community, youth, or civic programme",
-      "Something else",
+      "Professional / service business",
+      "Fashion or beauty brand",
+      "Food, catering or hospitality",
+      "Trade, retail or wholesale",
+      "Tech, digital or creative",
+      "Other serious small brand",
     ],
   },
-  dominantGap: {
+  discoveryChannel: {
     record: "02",
-    eyebrow: "Where it feels hardest",
-    title: "Where does the work feel hardest right now?",
+    eyebrow: "Where clients find you",
+    title: "How do most paying customers currently find you?",
     helper:
-      "Pick the primary friction. You can clarify later — this is not a test.",
+      "Think about the path that actually brings money — WhatsApp, Instagram, TikTok, Facebook, Google, walk-ins, or a mix.",
     options: [
-      "Being seen, trusted, or taken seriously",
-      "Getting work finished on time and to standard",
-      "Keeping people, information, and decisions organised",
-      "Using data, digital tools, or AI properly",
-      "Reaching the right partners, institutions, or decision-makers",
-      "Coordinating across teams, departments, or partners",
-      "Something else",
+      "WhatsApp only",
+      "Instagram",
+      "Physical location",
+      "Website",
+      "Combination",
     ],
   },
-  scale: {
+  customerFrustration: {
     record: "03",
-    eyebrow: "Scale of the effort",
-    title: "How big is the effort roughly?",
-    helper: "A light signal so we do not over- or under-recommend.",
+    eyebrow: "Where money leaks",
+    title: "What costs you the most customers or revenue right now?",
+    helper:
+      "Be honest. This is the friction we use to design a practical next step — not a sales pitch.",
     options: [
-      "Just me or a very small team",
-      "A structured team or department",
-      "A multi-unit organisation or programme",
-      "Still figuring out the shape",
+      "Lost messages",
+      "Looking unprofessional",
+      "No follow-up system",
+      "Hard for customers to find me",
+      "Other",
     ],
   },
-  horizon: {
+  readinessWindow: {
     record: "04",
-    eyebrow: "Timing",
-    title: "When do you need real progress?",
-    helper: "There is no wrong answer. It shapes urgency, not priority of care.",
-    options: [
-      "In the next few months",
-      "This year",
-      "Over the next 2–3 years",
-    ],
-  },
-  role: {
-    record: "05",
-    eyebrow: "Your role",
-    title: "What is your role?",
-    helper: "So we know how to speak with you.",
-    options: [
-      "I make the final decisions",
-      "I strongly influence the decisions",
-      "I help carry out the work",
-      "I’m exploring for someone else",
-    ],
+    eyebrow: "Readiness to fix it",
+    title:
+      "How ready are you to install a clearer presence and client system in the next 14–30 days?",
+    helper:
+      "There is no wrong answer. It tells us whether to move now or map a lighter first step.",
+    options: ["Ready now", "Exploring", "Just researching"],
   },
 } as const;
 
-/** Recommended track from dominant gap */
-export const GAP_TO_TRACK: Record<string, string> = {
-  "Being seen, trusted, or taken seriously": "Brand & reputation system",
-  "Getting work finished on time and to standard": "Delivery & operating system",
-  "Keeping people, information, and decisions organised":
-    "Simple operating system",
-  "Using data, digital tools, or AI properly": "Practical AI & digital setup",
-  "Reaching the right partners, institutions, or decision-makers":
-    "Access & partnership track",
-  "Coordinating across teams, departments, or partners":
-    "Coordination & institutional systems",
-  "Something else": "Short strategy check first",
-};
+/**
+ * Live Hubil Clients property map.
+ * Server normalizes select values to Hubil Clients options.
+ */
+export const NOTION_PROPERTY_MAP = {
+  businessName: { property: "Name", type: "title" },
+  fullName: { property: "Contact Person", type: "rich_text" },
+  whatsappNumber: { property: "Phone", type: "phone_number" },
+  whatsappText: { property: "WhatsApp", type: "rich_text" },
+  businessType: { property: "Business Type", type: "select" },
+  discoveryChannel: { property: "Customer Channels", type: "multi_select" },
+  customerFrustration: { property: "Biggest Frustration", type: "select" },
+  readinessWindow: { property: "Readiness", type: "select" },
+  diagnosticSource: { property: "Diagnostic Source", type: "select" },
+  status: { property: "Status", type: "select" },
+  rawNotes: { property: "Raw Diagnostic Notes", type: "rich_text" },
+} as const;
 
 export const HUBIL_CLIENTS_DATABASE_ID =
   "86a2b54b-bdf2-47b2-8319-23cb6590aa82";
