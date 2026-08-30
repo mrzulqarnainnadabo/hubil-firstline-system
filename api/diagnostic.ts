@@ -5,6 +5,7 @@ import {
   generateBrief,
   type DiagnosticRecord,
 } from "./lib/diagnostic.js";
+import { notifyFounderIfHigh } from "./lib/notify.js";
 
 export default async function handler(
   req: VercelRequest,
@@ -60,6 +61,7 @@ export default async function handler(
           pageId: notionPage.pageId,
           url: notionPage.url,
           track: brief.track,
+          status: "Briefed",
         }),
       );
     }
@@ -69,6 +71,27 @@ export default async function handler(
         event: "firstline.diagnostic.notion_error",
         message: err instanceof Error ? err.message : String(err),
         orgType: record.orgType,
+      }),
+    );
+  }
+
+  // High only — never blocks the client response
+  try {
+    await notifyFounderIfHigh({
+      priority: brief.priority,
+      track: brief.track,
+      orgType: record.orgType,
+      fullName: record.fullName,
+      contact: record.contact,
+      orgName: record.orgName,
+      dominantGap: record.dominantGap,
+      notionUrl: notionPage?.url,
+    });
+  } catch (err) {
+    console.error(
+      JSON.stringify({
+        event: "firstline.notify.error",
+        message: err instanceof Error ? err.message : String(err),
       }),
     );
   }
