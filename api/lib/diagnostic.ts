@@ -27,11 +27,55 @@ export type DiagnosticRecord = z.infer<typeof DiagnosticSchema> & {
 const GAP_TO_TRACK: Record<string, string> = {
   "Being seen, trusted, or taken seriously": "Brand & reputation system",
   "Getting work finished on time and to standard": "Delivery & operating system",
-  "Keeping people, information, and decisions organised": "Simple operating system",
+  "Keeping people, information, and decisions organised":
+    "Simple operating system",
   "Using data, digital tools, or AI properly": "Practical AI & digital setup",
-  "Reaching the right partners, institutions, or decision-makers": "Access & partnership track",
-  "Coordinating across teams, departments, or partners": "Coordination & institutional systems",
+  "Reaching the right partners, institutions, or decision-makers":
+    "Access & partnership track",
+  "Coordinating across teams, departments, or partners":
+    "Coordination & institutional systems",
   "Something else": "Short strategy check first",
+};
+
+/** Map form answers → Notion select option names (exact match required). */
+const ORG_TYPE_TO_NOTION: Record<string, string> = {
+  "A government or public institution": "Government / public institution",
+  "A company or organisation with a team": "Company / organisation",
+  "A brand or business I'm growing": "Brand / business",
+  "A community, youth, or civic programme": "Community / civic programme",
+  "Something else": "Other",
+};
+
+const GAP_TO_NOTION: Record<string, string> = {
+  "Being seen, trusted, or taken seriously": "Being seen or trusted",
+  "Getting work finished on time and to standard": "Delivery on time / standard",
+  "Keeping people, information, and decisions organised":
+    "People / info / decisions organised",
+  "Using data, digital tools, or AI properly": "Data / digital / AI",
+  "Reaching the right partners, institutions, or decision-makers":
+    "Access to partners / institutions",
+  "Coordinating across teams, departments, or partners":
+    "Coordination across units",
+  "Something else": "Other",
+};
+
+const HORIZON_TO_NOTION: Record<string, string> = {
+  "In the next few months": "Next few months",
+  "This year": "This year",
+  "Over the next 2–3 years": "2–3 years",
+};
+
+const ROLE_TO_NOTION: Record<string, string> = {
+  "I make the final decisions": "Final decisions",
+  "I strongly influence the decisions": "Strongly influences",
+  "I help carry out the work": "Carries out the work",
+  "I'm exploring for someone else": "Exploring for someone else",
+};
+
+const READINESS_FROM_HORIZON: Record<string, string> = {
+  "In the next few months": "Ready now",
+  "This year": "Exploring",
+  "Over the next 2–3 years": "Just researching",
 };
 
 export function generateBrief(record: DiagnosticRecord): {
@@ -43,7 +87,9 @@ export function generateBrief(record: DiagnosticRecord): {
 } {
   const track = GAP_TO_TRACK[record.dominantGap] ?? "Short strategy check first";
   const institutional =
-    /government|public institution|organisation|community|civic/i.test(record.orgType);
+    /government|public institution|organisation|community|civic/i.test(
+      record.orgType,
+    );
   const decisionMaker = /final decisions|strongly influence/i.test(record.role);
   const urgent = /few months/i.test(record.horizon);
 
@@ -53,17 +99,22 @@ export function generateBrief(record: DiagnosticRecord): {
 
   let firstMove = "Short discovery to lock primary gap and first install.";
   if (track === "Short strategy check first")
-    firstMove = "15-min discovery to clarify dominant gap and 12-month outcome.";
+    firstMove =
+      "15-min discovery to clarify dominant gap and 12-month outcome.";
   else if (track.includes("Brand"))
-    firstMove = "Request current public materials; schedule short positioning check.";
+    firstMove =
+      "Request current public materials; schedule short positioning check.";
   else if (track.includes("Delivery") || track.includes("Simple operating"))
-    firstMove = "Ask for delivery rhythm or organogram; propose lightweight operating map.";
+    firstMove =
+      "Ask for delivery rhythm or organogram; propose lightweight operating map.";
   else if (track.includes("AI") || track.includes("digital"))
-    firstMove = "Ask which tools and data are in use; propose practical digital/AI first step.";
+    firstMove =
+      "Ask which tools and data are in use; propose practical digital/AI first step.";
   else if (track.includes("Access"))
     firstMove = "Clarify target institutions/partners; map access track.";
   else if (track.includes("Coordination"))
-    firstMove = "Request picture of units and decision flow; design coordination layer.";
+    firstMove =
+      "Request picture of units and decision flow; design coordination layer.";
   else if (track.includes("Community"))
     firstMove = "Clarify programme scope; map community systems track.";
   if (urgent) firstMove += " Prioritise response within 1 business day.";
@@ -112,6 +163,14 @@ export function generateBrief(record: DiagnosticRecord): {
   return { track, briefText, firstMove, draftMessage, priority };
 }
 
+function rt(content: string) {
+  return { rich_text: [{ text: { content: content.slice(0, 1900) } }] };
+}
+
+function sel(name: string) {
+  return { select: { name } };
+}
+
 export async function createNotionClientPage(
   record: DiagnosticRecord,
 ): Promise<{ pageId: string; url: string } | null> {
@@ -124,53 +183,60 @@ export async function createNotionClientPage(
   const titleName =
     record.orgName?.trim() ||
     `${record.fullName} — ${record.orgType.slice(0, 40)}`;
-  const notes = briefText.slice(0, 1900);
   const contact = record.contact.trim();
   const looksLikePhone = /^[\d+\s\-()]{7,}$/.test(contact.replace(/\s/g, ""));
 
   const properties: Record<string, unknown> = {
     Name: { title: [{ text: { content: titleName.slice(0, 100) } }] },
-    "Contact Person": {
-      rich_text: [{ text: { content: record.fullName.slice(0, 100) } }],
-    },
-    "Diagnostic Source": { select: { name: "FirstLine Diagnostic" } },
-    Status: { select: { name: "Lead" } },
-    Source: { select: { name: "Direct" } },
-    Package: { select: { name: "Not Yet Decided" } },
-    "Raw Diagnostic Notes": {
-      rich_text: [{ text: { content: notes } }],
-    },
+    "Contact Person": rt(record.fullName),
+    "Diagnostic Source": sel("FirstLine Diagnostic"),
+    Status: sel("Lead"),
+    Source: sel("Direct"),
+    Package: sel("Not Yet Decided"),
+    "Raw Diagnostic Notes": rt(briefText),
+    "Stated Outcome": rt(record.statedOutcome),
+    Priority: sel(priority),
+    "Recommended Track": sel(track),
   };
+
+  const orgNotion = ORG_TYPE_TO_NOTION[record.orgType];
+  if (orgNotion) properties["Org Type"] = sel(orgNotion);
+
+  const gapNotion = GAP_TO_NOTION[record.dominantGap];
+  if (gapNotion) properties["Dominant Gap"] = sel(gapNotion);
+
+  const horizonNotion = HORIZON_TO_NOTION[record.horizon];
+  if (horizonNotion) properties.Horizon = sel(horizonNotion);
+
+  const roleNotion = ROLE_TO_NOTION[record.role];
+  if (roleNotion) properties.Role = sel(roleNotion);
+
+  const readiness = READINESS_FROM_HORIZON[record.horizon];
+  if (readiness) properties.Readiness = sel(readiness);
+
+  if (record.heardAbout?.trim()) {
+    properties["Heard About"] = rt(record.heardAbout);
+  }
 
   if (looksLikePhone) {
     properties.Phone = { phone_number: contact };
-    properties.WhatsApp = { rich_text: [{ text: { content: contact } }] };
+    properties.WhatsApp = rt(contact);
+  } else if (contact.includes("@")) {
+    properties.Email = { email: contact };
+    properties.WhatsApp = rt(contact);
   } else {
-    properties.WhatsApp = { rich_text: [{ text: { content: contact } }] };
+    properties.WhatsApp = rt(contact);
   }
 
-  try {
-    const typeMap: Record<string, string> = {
-      "A government or public institution": "Other",
-      "A company or organisation with a team": "Services",
-      "A brand or business I'm growing": "Other",
-      "A community, youth, or civic programme": "Other",
-      "Something else": "Other",
-    };
-    properties["Business Type"] = {
-      select: { name: typeMap[record.orgType] ?? "Other" },
-    };
-    const readinessMap: Record<string, string> = {
-      "In the next few months": "Ready now",
-      "This year": "Exploring",
-      "Over the next 2–3 years": "Just researching",
-    };
-    properties.Readiness = {
-      select: { name: readinessMap[record.horizon] ?? "Exploring" },
-    };
-  } catch {
-    /* ignore select mapping mismatches */
-  }
+  // Legacy Business Type: soft map so old views still have a value
+  const legacyType: Record<string, string> = {
+    "A government or public institution": "Other",
+    "A company or organisation with a team": "Services",
+    "A brand or business I'm growing": "Other",
+    "A community, youth, or civic programme": "Other",
+    "Something else": "Other",
+  };
+  properties["Business Type"] = sel(legacyType[record.orgType] ?? "Other");
 
   const response = await notion.pages.create({
     parent: { database_id: databaseId },
