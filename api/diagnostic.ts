@@ -2,7 +2,6 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
   DiagnosticSchema,
   createNotionClientPage,
-  generateBrief,
   type DiagnosticRecord,
 } from "./lib/diagnostic.js";
 
@@ -27,23 +26,16 @@ export default async function handler(
 
   const record: DiagnosticRecord = {
     ...parsed.data,
-    orgName: parsed.data.orgName ?? "",
-    heardAbout: parsed.data.heardAbout ?? "",
     submittedAt: parsed.data.submittedAt ?? new Date().toISOString(),
     receivedAt: new Date().toISOString(),
   };
 
-  const brief = generateBrief(record);
-
   console.log(
     JSON.stringify({
       event: "firstline.diagnostic.received",
-      orgType: record.orgType,
-      dominantGap: record.dominantGap,
-      horizon: record.horizon,
-      role: record.role,
-      track: brief.track,
-      priority: brief.priority,
+      businessName: record.businessName,
+      businessType: record.businessType,
+      readinessWindow: record.readinessWindow,
       source: record.source,
       submittedAt: record.submittedAt,
     }),
@@ -59,7 +51,7 @@ export default async function handler(
           event: "firstline.diagnostic.notion_created",
           pageId: notionPage.pageId,
           url: notionPage.url,
-          track: brief.track,
+          businessName: record.businessName,
         }),
       );
     }
@@ -68,18 +60,15 @@ export default async function handler(
       JSON.stringify({
         event: "firstline.diagnostic.notion_error",
         message: err instanceof Error ? err.message : String(err),
-        orgType: record.orgType,
+        businessName: record.businessName,
       }),
     );
   }
 
   return res.status(201).json({
     ok: true,
-    message:
-      "Diagnostic received. A Hubil specialist will review the brief and continue with you if there is a fit.",
+    message: "Diagnostic received. A Hubil systems specialist will review it.",
     reference: record.submittedAt,
-    track: brief.track,
-    priority: brief.priority,
     notion: notionPage
       ? { created: true, pageId: notionPage.pageId }
       : { created: false },
