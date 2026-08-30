@@ -1,6 +1,6 @@
 /**
- * FirstLine landing — diagnostic front door into Hubil Small Business Operating Systems.
- * Packages shown by outcomes only (Foundation, Growth, Operating System). No prices.
+ * FirstLine landing — dual-track diagnostic front door.
+ * Institutions and serious brands. Outcomes only. No prices.
  */
 import { DiagnosticFlow } from "@/components/DiagnosticFlow";
 import { DIAGNOSTIC_SOURCE, DiagnosticResponse } from "@/config/diagnostic";
@@ -150,7 +150,7 @@ export default function Home() {
                 <div className="mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-[#F5B8BB]">
                   <span className="inline-flex items-center gap-2">
                     <span className="status-dot h-2 w-2 rounded-full bg-[#E14C53]" />{" "}
-                    Small business operating systems
+                    Institutional & brand systems
                   </span>
                   <span className="h-3 w-px bg-white/25" />
                   <span>FL–01 diagnostic</span>
@@ -184,21 +184,21 @@ export default function Home() {
               </div>
               <div className="mt-12 grid max-w-[680px] gap-4 border-t border-white/15 pt-5 sm:grid-cols-3 sm:gap-5 lg:mt-8">
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-3xl text-[#E14C53]">05</span>
+                  <span className="font-display text-3xl text-[#E14C53]">07</span>
                   <p className="text-xs font-semibold leading-5 text-slate-300">
-                    Short records. Honest answers.
+                    Short questions. Honest answers.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock3 size={18} className="text-[#E14C53]" />
                   <p className="text-xs font-semibold leading-5 text-slate-300">
-                    Then a 15–20 min discovery on WhatsApp.
+                    Brief generated for Hubil review.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <MessageCircle size={18} className="text-[#E14C53]" />
                   <p className="text-xs font-semibold leading-5 text-slate-300">
-                    Context already in your message.
+                    Human reply — no auto-pitch.
                   </p>
                 </div>
               </div>
@@ -206,17 +206,17 @@ export default function Home() {
             <div className="relative min-h-[320px] lg:min-h-0">
               <img
                 src={SITE.images.hero}
-                alt="Nigerian business owner with a professional customer-facing setup"
+                alt="Professional institutional and brand systems work"
                 className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0D2037]/80 via-[#0D2037]/5 to-transparent lg:bg-gradient-to-r lg:from-[#0D2037]/60 lg:via-transparent lg:to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-5 pb-5 sm:px-8 sm:pb-8 lg:left-auto lg:w-[74%] lg:px-10">
-                <div className="max-w-[270px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md">
+                <div className="max-w-[280px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md">
                   <p className="text-[0.58rem] font-bold uppercase tracking-[0.17em] text-[#F5B8BB]">
                     Core promise
                   </p>
                   <p className="mt-1 text-sm font-bold leading-5 text-white">
-                    Find you. Buy from you. Come back — while you stay in control.
+                    Systems that last — strategy, structure, growth.
                   </p>
                 </div>
               </div>
@@ -240,7 +240,7 @@ export default function Home() {
           <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
             <SignalLabel>What FirstLine is for</SignalLabel>
             <h2 className="font-display max-w-3xl text-3xl leading-[1.05] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
-              Diagnose the leak. Then install the right system.
+              Diagnose the friction. Then install the right system.
             </h2>
             <div className="mt-10 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC] sm:grid-cols-3">
               {SITE.valuePillars.map((pillar) => (
@@ -267,10 +267,10 @@ export default function Home() {
                 </h2>
               </div>
               <p className="max-w-md text-base leading-7 text-[#526174] lg:justify-self-end">
-                Five short records. We learn how you sell, where clients find you,
-                and where money leaks. Then we continue on WhatsApp with your
-                answers already in the message — and tell you honestly which
-                system fits.
+                Seven short steps. We learn what you are building, where work is
+                hardest, and when you need progress. A structured brief is
+                generated for Hubil — then a human continues with you if there is
+                fit.
               </p>
             </div>
             <div className="mt-12">
@@ -281,7 +281,7 @@ export default function Home() {
             </div>
             {lastDiagnostic && (
               <p className="sr-only">
-                Diagnostic completed for {lastDiagnostic.businessName} from{" "}
+                Diagnostic completed for {lastDiagnostic.orgName || lastDiagnostic.fullName} from{" "}
                 {DIAGNOSTIC_SOURCE}.
               </p>
             )}
@@ -292,13 +292,13 @@ export default function Home() {
           <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
             <SignalLabel>The systems we install</SignalLabel>
             <h2 className="font-display max-w-3xl text-4xl leading-[1.03] tracking-[-0.04em] text-[#0D2037] sm:text-5xl">
-              Foundation. Growth. Operating System.
+              Matched to the dominant gap.
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-7 text-[#526174]">
               After the diagnostic we map you to the lightest system that solves
               the real problem — not the heaviest package on the menu.
             </p>
-            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {SITE.systems.map((system) => (
                 <article
                   key={system.code}
@@ -326,7 +326,7 @@ export default function Home() {
                       {system.solves}
                     </p>
                     <ul className="mt-4 grid gap-2 border-t border-[#D8D4CC] pt-4">
-                      {system.includes.slice(0, 5).map((item) => (
+                      {system.includes.map((item) => (
                         <li
                           key={item}
                           className="flex gap-2 text-xs leading-5 text-[#314154]"
@@ -338,11 +338,6 @@ export default function Home() {
                           {item}
                         </li>
                       ))}
-                      {system.includes.length > 5 && (
-                        <li className="text-xs font-bold text-[#526174]">
-                          + more on handover
-                        </li>
-                      )}
                     </ul>
                   </div>
                 </article>
@@ -355,7 +350,7 @@ export default function Home() {
           <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
             <SignalLabel>How we work</SignalLabel>
             <h2 className="font-display max-w-2xl text-3xl tracking-[-0.04em] text-[#0D2037] sm:text-4xl">
-              Discovery → proposal → build → handover → support.
+              Diagnostic → brief → human reply → discovery → systems.
             </h2>
             <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {SITE.howWeWork.map((step, index) => (
@@ -399,12 +394,12 @@ export default function Home() {
             <div>
               <SignalLabel light>Next step</SignalLabel>
               <h2 className="font-display text-4xl leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl">
-                Book a short discovery on WhatsApp.
+                Complete the diagnostic. We continue with context.
               </h2>
               <p className="mt-6 max-w-md text-base leading-7 text-slate-300">
-                Complete the diagnostic first so we have context. Or message
-                directly if you need to speak now — we will still tell you
-                honestly which system fits and what results to expect.
+                Or message directly if you need to speak now. We still tell you
+                honestly whether there is fit and what the practical next step
+                looks like.
               </p>
             </div>
             <div className="overflow-hidden border border-white/15 text-sm">
@@ -475,7 +470,7 @@ export default function Home() {
             />
             <span>
               <span className="font-bold text-white">FirstLine</span> · Hubil
-              Group · Strategy. Structure. Growth.
+              Group · {SITE.taglineBrand}
             </span>
           </p>
           <a
