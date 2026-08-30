@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import {
   DiagnosticSchema,
   createNotionClientPage,
+  generateBrief,
   type DiagnosticRecord,
 } from "../api/lib/diagnostic.js";
 
@@ -41,16 +42,23 @@ async function startServer() {
 
     const record: DiagnosticRecord = {
       ...parsed.data,
+      orgName: parsed.data.orgName ?? "",
+      heardAbout: parsed.data.heardAbout ?? "",
       submittedAt: parsed.data.submittedAt ?? new Date().toISOString(),
       receivedAt: new Date().toISOString(),
     };
 
+    const brief = generateBrief(record);
+
     console.log(
       JSON.stringify({
         event: "firstline.diagnostic.received",
-        businessName: record.businessName,
-        businessType: record.businessType,
-        readinessWindow: record.readinessWindow,
+        orgType: record.orgType,
+        dominantGap: record.dominantGap,
+        horizon: record.horizon,
+        role: record.role,
+        track: brief.track,
+        priority: brief.priority,
         source: record.source,
         submittedAt: record.submittedAt,
       }),
@@ -66,7 +74,7 @@ async function startServer() {
             event: "firstline.diagnostic.notion_created",
             pageId: notionPage.pageId,
             url: notionPage.url,
-            businessName: record.businessName,
+            track: brief.track,
           }),
         );
       }
@@ -75,33 +83,34 @@ async function startServer() {
         JSON.stringify({
           event: "firstline.diagnostic.notion_error",
           message: err instanceof Error ? err.message : String(err),
-          businessName: record.businessName,
+          orgType: record.orgType,
         }),
       );
     }
 
     return res.status(201).json({
       ok: true,
-      message: "Diagnostic received. A Hubil systems specialist will review it.",
+      message:
+        "Diagnostic received. A Hubil specialist will review the brief and continue with you if there is a fit.",
       reference: record.submittedAt,
+      track: brief.track,
+      priority: brief.priority,
       notion: notionPage
         ? { created: true, pageId: notionPage.pageId }
         : { created: false },
     });
   });
 
-  const staticPath =
-    process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "public")
-      : path.resolve(__dirname, "..", "dist", "public");
+  const isProd = process.env.NODE_ENV === "production";
+  if (isProd) {
+    const publicDir = path.join(__dirname, "public");
+    app.use(express.static(publicDir));
+    app.get("*", (_req, res) => {
+      res.sendFile(path.join(publicDir, "index.html"));
+    });
+  }
 
-  app.use(express.static(staticPath));
-
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(staticPath, "index.html"));
-  });
-
-  const port = process.env.PORT || 3000;
+  const port = Number(process.env.PORT) || 3000;
 
   server.listen(port, () => {
     console.log(`FirstLine server running on http://localhost:${port}/`);
