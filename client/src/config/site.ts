@@ -1,104 +1,124 @@
 /**
- * Hubil FirstLine — Client Customization Console
+ * Hubil FirstLine — positioning & contact
  * --------------------------------------------------------------------------
- * FirstLine is the diagnostic front door into Hubil Small Business Operating Systems.
- * Packages (Foundation → Growth → Operating System) are described by outcomes only — no prices on this surface.
+ * Dual-track diagnostic front door: institutions and serious brands.
+ * Outcomes only. No prices on this surface.
  */
 
 export const SITE = {
   companyName: "Hubil Group",
   systemName: "FirstLine",
-  systemDescriptor: "Small Business Operating Systems Diagnostic",
+  systemDescriptor: "Institutional & Brand Systems Diagnostic",
   managingDirector: "Ambassador Zulqarnain Yusuf Nadabo",
+  taglineBrand: "Strategy. Structure. Growth.",
 
-  eyebrow: "For Nigerian brands tired of leaking customers and looking smaller than they are",
-  headline: "Install the systems serious businesses use — starting with an honest diagnosis.",
+  eyebrow: "For institutions and serious brands that need clarity before action",
+  headline: "See the friction clearly. Then install the right system.",
   tagline:
-    "FirstLine finds where you are invisible, where messages are lost, and where money leaks. Then we continue on WhatsApp and map the right operating system for your brand.",
+    "FirstLine is a short diagnostic that maps where work is hardest — visibility, delivery, coordination, digital tools, or access — and points to the practical next step. We continue the conversation with context already in hand.",
   availabilityNote:
-    "Diagnostic first · Discovery on WhatsApp · Systems installed after fit is clear",
+    "Diagnostic first · Human review · Discovery only when there is fit",
 
   corePromise:
-    "We do not sell random digital services. We install the essential systems a small brand needs so customers can find you, buy from you, and come back — while you stay in control.",
+    "We build systems and create value — we do not just give advice. The same discipline used for institutional and civic operating systems is applied to your organisation or brand.",
 
   whoThisIsFor:
-    "Small and growing Nigerian brands, traders, service providers, and founders running on scattered WhatsApp chats, lost customer details, and a presence that understates the real business.",
+    "Government and public institutions, structured companies, development programmes, serious brands, and growing businesses that need operating clarity — not another slide deck.",
 
   valuePillars: [
     {
-      title: "Look professional and be findable",
-      copy: "Documentation, Google Business Profile, a clean mobile front door, and WhatsApp that actually converts interest into contact.",
+      title: "Clear diagnosis first",
+      copy: "Short, plain-English questions. No judgment. A usable internal brief for Hubil so the first human reply is already informed.",
     },
     {
-      title: "Capture every customer",
-      copy: "Stop losing people in chats. Log inquiries, automate first response, and keep a simple record of who bought and who needs follow-up.",
+      title: "Systems, not noise",
+      copy: "Brand & reputation, delivery, operating systems, practical AI, access & partnerships, community systems — matched to the dominant gap.",
     },
     {
-      title: "Stop leaking money",
-      copy: "Turn daily chaos into a lightweight operating system — website, database, automations, and handover so you are not abandoned after delivery.",
+      title: "Speed of thoughtful response",
+      copy: "Your answers create a structured record. A specialist reviews and continues with you — high-status, no auto-pitch, no invented prices.",
     },
   ] as const,
 
-  /** Outcomes only — mirrors the service menu without prices. */
   systems: [
     {
       code: "01",
-      name: "Foundation",
-      bestFor: "New or early brands that need to look real and be findable.",
-      solves:
-        "Looking unserious, being invisible on Google, having no professional front door.",
+      name: "Brand & reputation",
+      bestFor: "When being seen, trusted, or taken seriously is the friction.",
+      solves: "Weak presence, unclear positioning, institutional credibility gaps.",
       includes: [
-        "Business documentation pack (profile, offer sheet, simple terms)",
-        "Google Business Profile setup and optimization",
-        "Clean, mobile-first website",
-        "WhatsApp click-to-chat + basic auto-greeting",
-        "Google Maps visibility and basic NAP consistency",
-        "Handover training",
+        "Positioning and narrative structure",
+        "Reputation and proof assets",
+        "Public-facing systems that match the real work",
       ],
     },
     {
       code: "02",
-      name: "Growth",
-      bestFor: "Brands already selling but drowning in WhatsApp and losing customers.",
-      solves:
-        "Lost messages, forgotten customers, no follow-up system, running the business from memory.",
+      name: "Delivery & operating system",
+      bestFor: "When work does not finish on time or to standard.",
+      solves: "Missed deadlines, unclear ownership, weak handover.",
       includes: [
-        "Everything in Foundation",
-        "Simple customer and order database",
-        "Professional chatbot / auto-responder for FAQs",
-        "Basic automation: inquiry → notify you + log in database",
-        "Simple admin view for leads and orders",
-        "Notion workspace starter for assets and SOPs",
-        "Handover + light support window",
+        "Delivery rhythm and accountability",
+        "Task and project structure",
+        "Simple operating cadence",
       ],
     },
     {
       code: "03",
-      name: "Operating System",
-      bestFor: "Serious small brands ready to professionalize and prepare for scale.",
-      solves: "The entire daily chaos of running a small brand without systems.",
+      name: "Coordination & institutional systems",
+      bestFor: "When teams, departments, or partners do not align.",
+      solves: "Fragmented information, approval bottlenecks, weak cross-unit flow.",
       includes: [
-        "Everything in Growth",
-        "Full mini operating system (website + database + chatbot + automations)",
-        "Custom workflow for your sales process",
-        "Lightweight internal dashboard",
-        "Document and knowledge system structure",
-        "Team access setup if you have help",
-        "Extended support + optimization review",
+        "Information and decision architecture",
+        "Cross-team operating design",
+        "Reporting and signal systems",
+      ],
+    },
+    {
+      code: "04",
+      name: "Practical AI & digital",
+      bestFor: "When data, tools, or AI are underused or chaotic.",
+      solves: "Scattered tools, no digital backbone, missed leverage from AI.",
+      includes: [
+        "Practical digital setup",
+        "Light AI workflows that stick",
+        "Data and information hygiene",
+      ],
+    },
+    {
+      code: "05",
+      name: "Access & partnerships",
+      bestFor: "When the right institutions or partners are hard to reach.",
+      solves: "Closed doors, weak institutional relations, unclear approach.",
+      includes: [
+        "Access track design",
+        "Partnership readiness",
+        "Institutional relationship systems",
+      ],
+    },
+    {
+      code: "06",
+      name: "Community systems",
+      bestFor: "Youth, civic, and community programmes that need real structure.",
+      solves: "Ad-hoc programmes, weak signal, no durable operating layer.",
+      includes: [
+        "Community and youth operating systems",
+        "Civic signal and capacity design",
+        "Programme delivery structure",
       ],
     },
   ] as const,
 
   howWeWork: [
-    "Short discovery (15–20 minutes) — how you sell today and where the leaks are.",
-    "Clear proposal with exact deliverables and timeline.",
-    "Build and configure using modern, reliable tools.",
-    "Handover training so you or your assistant can run the system.",
-    "Light support window so you are not abandoned after delivery.",
+    "Short diagnostic — honest answers, under a few minutes.",
+    "Internal brief generated and reviewed by Hubil.",
+    "Human first message — high-status, no prices, no guarantees.",
+    "Discovery only when there is clear fit.",
+    "Systems installed and handed over with discipline.",
   ] as const,
 
   whyHubil:
-    "Hubil Group is led by an institutional architect who designs real operating systems — not just websites. The same discipline used for multi-tier governance and community systems is applied to your small business. Structure that lasts, not temporary fixes.",
+    "Hubil Group designs real operating systems — strategy, structure, growth. Proof includes institutional and civic systems work (ISEYC-related Digital Operations Centre, Civic Signal, programme architecture). We install what lasts.",
 
   primaryWhatsApp: "2348036984766",
   primaryWhatsAppDisplay: "+234 803 698 4766",
@@ -109,7 +129,7 @@ export const SITE = {
   systemsDashboardUrl: "https://www.notion.so/3c25db88ef4681758f60eb443e969f9b",
 
   privacyNote:
-    "Your answers go only to Hubil Group. We do not sell or share your data. A specialist reviews the record and continues with you on WhatsApp if there is a fit.",
+    "Your answers go only to Hubil Group. We do not sell or share your data. A specialist reviews the record and continues with you only if there is a fit.",
 
   images: {
     hubilLogo: "/hubil-logo.svg",
@@ -121,30 +141,30 @@ export const SITE = {
 } as const;
 
 export const PRIMARY_WHATSAPP_MESSAGE = encodeURIComponent(
-  "Hello Hubil Group — I completed the FirstLine diagnostic. I want a short discovery about which operating system fits my business (Foundation, Growth, or full Operating System).",
+  "Hello Hubil Group — I completed the FirstLine diagnostic. I would like a short discovery about the right next system for what we are building.",
 );
 
 export function buildWhatsAppContinueUrl(payload: {
   fullName: string;
-  businessName: string;
-  businessType: string;
-  discoveryChannel: string;
-  customerFrustration: string;
-  readinessWindow: string;
-  whatsappNumber: string;
+  orgName: string;
+  orgType: string;
+  dominantGap: string;
+  horizon: string;
+  role: string;
+  contact: string;
 }): string {
   const lines = [
-    "Hello Hubil Group — I completed the FirstLine Small Business Operating Systems Diagnostic.",
+    "Hello Hubil Group — I completed the FirstLine diagnostic.",
     "",
     `Name: ${payload.fullName}`,
-    `Business: ${payload.businessName}`,
-    `Type: ${payload.businessType}`,
-    `How customers find me: ${payload.discoveryChannel}`,
-    `Biggest leak / friction: ${payload.customerFrustration}`,
-    `Readiness: ${payload.readinessWindow}`,
-    `My WhatsApp: ${payload.whatsappNumber}`,
+    `Organisation / brand: ${payload.orgName || "—"}`,
+    `Type: ${payload.orgType}`,
+    `Where it feels hardest: ${payload.dominantGap}`,
+    `Horizon: ${payload.horizon}`,
+    `Role: ${payload.role}`,
+    `Contact: ${payload.contact}`,
     "",
-    "Please review and tell me honestly which system fits — Foundation, Growth, or Operating System — and what we should do next.",
+    "Please review and tell me the practical next step.",
   ];
   return `https://wa.me/${SITE.primaryWhatsApp}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
