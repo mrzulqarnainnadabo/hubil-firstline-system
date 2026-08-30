@@ -190,7 +190,7 @@ export async function createNotionClientPage(
     Name: { title: [{ text: { content: titleName.slice(0, 100) } }] },
     "Contact Person": rt(record.fullName),
     "Diagnostic Source": sel("FirstLine Diagnostic"),
-    Status: sel("Lead"),
+    Status: sel("Briefed"),
     Source: sel("Direct"),
     Package: sel("Not Yet Decided"),
     "Raw Diagnostic Notes": rt(briefText),
