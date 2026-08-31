@@ -203,15 +203,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="relative min-h-[320px] lg:min-h-0">
-              <img
-                src={SITE.images.hero}
-                alt="Professional institutional and brand systems work"
-                className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D2037]/80 via-[#0D2037]/5 to-transparent lg:bg-gradient-to-r lg:from-[#0D2037]/60 lg:via-transparent lg:to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-5 pb-5 sm:px-8 sm:pb-8 lg:left-auto lg:w-[74%] lg:px-10">
-                <div className="max-w-[280px] border-l-2 border-[#B8121C] bg-[#0D2037]/90 px-4 py-3 backdrop-blur-md">
+            <div className="relative flex min-h-[280px] flex-col justify-end overflow-hidden bg-gradient-to-br from-[#0A1A2E] via-[#0D2037] to-[#1A0A12] lg:min-h-0">
+              <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(ellipse at 70% 30%, #B8121C33 0%, transparent 55%)" }} />
+              <div className="relative z-10 px-5 pb-6 pt-10 sm:px-8 sm:pb-8 lg:px-10">
+                <div className="max-w-[300px] border-l-2 border-[#B8121C] bg-[#0D2037]/85 px-4 py-3 backdrop-blur-md">
                   <p className="text-[0.58rem] font-bold uppercase tracking-[0.17em] text-[#F5B8BB]">
                     Core promise
                   </p>
@@ -383,13 +378,7 @@ export default function Home() {
           id="contact"
           className="relative overflow-hidden bg-[#0D2037] py-20 text-white sm:py-24"
         >
-          <div className="absolute inset-0 opacity-[0.12]">
-            <img
-              src={SITE.images.serviceDetail}
-              alt=""
-              className="h-full w-full object-cover mix-blend-luminosity"
-            />
-          </div>
+          <div className="absolute inset-0 opacity-40" style={{ background: "radial-gradient(ellipse at 20% 80%, #B8121C22 0%, transparent 50%)" }} />
           <div className="relative mx-auto grid max-w-[1480px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20 lg:px-12 xl:px-16">
             <div>
               <SignalLabel light>Next step</SignalLabel>

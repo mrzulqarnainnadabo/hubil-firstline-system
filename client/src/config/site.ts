@@ -132,11 +132,12 @@ export const SITE = {
     "Your answers go only to Hubil Group. We do not sell or share your data. A specialist reviews the record and continues with you only if there is a fit.",
 
   images: {
-    hubilLogo: "/hubil-logo.svg",
-    foundationMark: "/hubil-logo.svg",
-    hero: "/manus-storage/hubil-hero-marketplace_55e4d25d.jpg",
-    about: "/manus-storage/hubil-about-craft_9ceaad21.jpg",
-    serviceDetail: "/manus-storage/hubil-service-detail_f45ba0e4.jpg",
+    hubilLogo: "/hubil-logo.png",
+    foundationMark: "/hubil-logo.png",
+    // No external hero/service images — keep the surface clean and self-contained
+    hero: "",
+    about: "",
+    serviceDetail: "",
   },
 } as const;
 
