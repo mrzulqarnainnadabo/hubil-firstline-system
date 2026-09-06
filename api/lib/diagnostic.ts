@@ -24,6 +24,28 @@ export type DiagnosticRecord = z.infer<typeof DiagnosticSchema> & {
   receivedAt: string;
 };
 
+/** Normalize curly/smart quotes so form → Notion maps never miss. */
+function norm(s: string): string {
+  return s
+    .replace(/[\u2018\u2019\u201A\uFF07]/g, "'")
+    .replace(/[\u201C\u201D\u201E]/g, '"')
+    .replace(/\u2013|\u2014/g, "-")
+    .trim();
+}
+
+function mapLookup(
+  table: Record<string, string>,
+  value: string,
+): string | undefined {
+  if (table[value]) return table[value];
+  const n = norm(value);
+  if (table[n]) return table[n];
+  for (const [k, v] of Object.entries(table)) {
+    if (norm(k) === n) return v;
+  }
+  return undefined;
+}
+
 const GAP_TO_TRACK: Record<string, string> = {
   "Being seen, trusted, or taken seriously": "Brand & reputation system",
   "Getting work finished on time and to standard": "Delivery & operating system",
@@ -41,6 +63,7 @@ const GAP_TO_TRACK: Record<string, string> = {
 const ORG_TYPE_TO_NOTION: Record<string, string> = {
   "A government or public institution": "Government / public institution",
   "A company or organisation with a team": "Company / organisation",
+  "A brand or business I'm growing": "Brand / business",
   "A brand or business I'm growing": "Brand / business",
   "A community, youth, or civic programme": "Community / civic programme",
   "Something else": "Other",
@@ -63,6 +86,7 @@ const HORIZON_TO_NOTION: Record<string, string> = {
   "In the next few months": "Next few months",
   "This year": "This year",
   "Over the next 2–3 years": "2–3 years",
+  "Over the next 2-3 years": "2–3 years",
 };
 
 const ROLE_TO_NOTION: Record<string, string> = {
@@ -70,12 +94,14 @@ const ROLE_TO_NOTION: Record<string, string> = {
   "I strongly influence the decisions": "Strongly influences",
   "I help carry out the work": "Carries out the work",
   "I'm exploring for someone else": "Exploring for someone else",
+  "I'm exploring for someone else": "Exploring for someone else",
 };
 
 const READINESS_FROM_HORIZON: Record<string, string> = {
   "In the next few months": "Ready now",
   "This year": "Exploring",
   "Over the next 2–3 years": "Just researching",
+  "Over the next 2-3 years": "Just researching",
 };
 
 export function generateBrief(record: DiagnosticRecord): {
@@ -85,7 +111,8 @@ export function generateBrief(record: DiagnosticRecord): {
   draftMessage: string;
   priority: "High" | "Medium" | "Watch";
 } {
-  const track = GAP_TO_TRACK[record.dominantGap] ?? "Short strategy check first";
+  const track =
+    mapLookup(GAP_TO_TRACK, record.dominantGap) ?? "Short strategy check first";
   const institutional =
     /government|public institution|organisation|community|civic/i.test(
       record.orgType,
@@ -199,19 +226,19 @@ export async function createNotionClientPage(
     "Recommended Track": sel(track),
   };
 
-  const orgNotion = ORG_TYPE_TO_NOTION[record.orgType];
+  const orgNotion = mapLookup(ORG_TYPE_TO_NOTION, record.orgType);
   if (orgNotion) properties["Org Type"] = sel(orgNotion);
 
-  const gapNotion = GAP_TO_NOTION[record.dominantGap];
+  const gapNotion = mapLookup(GAP_TO_NOTION, record.dominantGap);
   if (gapNotion) properties["Dominant Gap"] = sel(gapNotion);
 
-  const horizonNotion = HORIZON_TO_NOTION[record.horizon];
+  const horizonNotion = mapLookup(HORIZON_TO_NOTION, record.horizon);
   if (horizonNotion) properties.Horizon = sel(horizonNotion);
 
-  const roleNotion = ROLE_TO_NOTION[record.role];
+  const roleNotion = mapLookup(ROLE_TO_NOTION, record.role);
   if (roleNotion) properties.Role = sel(roleNotion);
 
-  const readiness = READINESS_FROM_HORIZON[record.horizon];
+  const readiness = mapLookup(READINESS_FROM_HORIZON, record.horizon);
   if (readiness) properties.Readiness = sel(readiness);
 
   if (record.heardAbout?.trim()) {
@@ -233,10 +260,13 @@ export async function createNotionClientPage(
     "A government or public institution": "Other",
     "A company or organisation with a team": "Services",
     "A brand or business I'm growing": "Other",
+    "A brand or business I'm growing": "Other",
     "A community, youth, or civic programme": "Other",
     "Something else": "Other",
   };
-  properties["Business Type"] = sel(legacyType[record.orgType] ?? "Other");
+  properties["Business Type"] = sel(
+    mapLookup(legacyType, record.orgType) ?? "Other",
+  );
 
   const response = await notion.pages.create({
     parent: { database_id: databaseId },
