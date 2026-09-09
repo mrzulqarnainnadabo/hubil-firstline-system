@@ -20,10 +20,16 @@ function date(properties: Record<string, any>, name: string): string {
   return properties[name]?.date?.start ?? "";
 }
 
+function dateMs(value: string): number {
+  if (!value) return 0;
+  const parsed = new Date(value).getTime();
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 function daysSince(value: string): number | null {
-  if (!value) return null;
-  const ms = Date.now() - new Date(value.includes("T") ? value : `${value}T00:00:00Z`).getTime();
-  return Math.max(0, Math.floor(ms / 86_400_000));
+  const ms = dateMs(value);
+  if (!ms) return null;
+  return Math.max(0, Math.floor((Date.now() - ms) / 86_400_000));
 }
 
 function authorized(req: VercelRequest) {
@@ -73,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const now = new Date();
   const cutoff = now.getTime() - COOLDOWN_DAYS * 86_400_000;
   const candidates: any[] = [];
-  const excluded: Record<string, number> = { no_contact: 0, recent_contact: 0, parked: 0, active: 0, delivered: 0, missing_stage: 0 };
+  const excluded: Record<string, number> = { no_contact: 0, recent_automation_run: 0, parked: 0, active: 0, delivered: 0, missing_stage: 0 };
 
   for (const page of pages) {
     const p = page.properties as Record<string, any>;
@@ -95,8 +101,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (["Delivered", "Support"].includes(status)) { excluded.delivered += 1; continue; }
     if (!contactable(email, whatsapp, phone)) { excluded.no_contact += 1; continue; }
 
-    const lastMs = lastRun ? new Date(`${lastRun}T00:00:00Z`).getTime() : 0;
-    if (lastMs && lastMs >= cutoff) { excluded.recent_contact += 1; continue; }
+    const lastMs = dateMs(lastRun);
+    if (lastMs && lastMs >= cutoff) { excluded.recent_automation_run += 1; continue; }
 
     const overdue = followUp ? followUp <= now.toISOString().slice(0, 10) : false;
     const stageEligible = ["Lead", "Briefed", "Discovery", "Proposal"].includes(status);
@@ -135,6 +141,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     exclusions: excluded,
     safety: {
       cooldownDays: COOLDOWN_DAYS,
+      cooldownBasis: "Last Automation Run (not proof of client contact)",
       humanApprovalRequired: true,
       sendsPerformed: 0,
       phoneNumbersAreNotTreatedAsWhatsAppConsent: true,
