@@ -15,8 +15,7 @@ function textProperty(properties: Record<string, any>, name: string): string {
 
 function authorized(req: VercelRequest) {
   const secret = process.env.CRON_SECRET;
-  if (!secret) return true;
-  return req.headers.authorization === `Bearer ${secret}`;
+  return Boolean(secret) && req.headers.authorization === `Bearer ${secret}`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
