@@ -1,9 +1,10 @@
 /**
- * FirstLine diagnostic UI — dual-track, low friction.
+ * FirstLine diagnostic UI — interactive, low friction, institutional.
  */
 import { Button } from "@/components/ui/button";
 import {
   DiagnosticResponse,
+  GAP_TO_TRACK,
   diagnosticQuestions,
   emptyDiagnosticResponse,
 } from "@/config/diagnostic";
@@ -30,21 +31,26 @@ type DiagnosticFlowProps = {
 };
 
 const stepLabels = [
-  "What you are building",
-  "Where it feels hardest",
-  "Scale of the effort",
+  "Building",
+  "Friction",
+  "Scale",
   "Timing",
-  "Your role",
-  "12-month aim",
-  "How we reach you",
+  "Role",
+  "Aim",
+  "Contact",
 ];
 
 const inputCls =
-  "h-12 border border-[#D8D4CC] bg-white px-4 text-sm font-medium outline-none placeholder:text-[#8B95A3] focus:border-[#B8121C] focus:ring-2 focus:ring-[#B8121C]/15";
+  "h-12 w-full border border-[#D8D4CC] bg-white px-4 text-sm font-medium outline-none placeholder:text-[#8B95A3] focus:border-[#B8121C] focus:ring-2 focus:ring-[#B8121C]/15";
 
-export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps) {
+export function DiagnosticFlow({
+  whatsappUrl,
+  onComplete,
+}: DiagnosticFlowProps) {
   const [activeStep, setActiveStep] = useState(0);
-  const [response, setResponse] = useState<DiagnosticResponse>(emptyDiagnosticResponse);
+  const [response, setResponse] = useState<DiagnosticResponse>(
+    emptyDiagnosticResponse,
+  );
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,6 +69,10 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
   function setChoice(field: ChoiceField, value: string) {
     setResponse((c) => ({ ...c, [field]: value }));
     setError("");
+    // Auto-advance after selection for faster, more interactive flow
+    window.setTimeout(() => {
+      setActiveStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
+    }, 220);
   }
 
   function setField(field: keyof DiagnosticResponse, value: string) {
@@ -76,7 +86,7 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
       return;
     }
     if (isOutcomeStep && !response.statedOutcome.trim()) {
-      setError("Write one or two sentences about the main thing you want to get right.");
+      setError("Add one or two sentences about what you want to get right.");
       return;
     }
     setError("");
@@ -133,6 +143,8 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
 
   if (submitted && completed) {
     const continueUrl = buildWhatsAppContinueUrl(completed);
+    const track =
+      GAP_TO_TRACK[completed.dominantGap] || "Short strategy check first";
     return (
       <div className="relative overflow-hidden border border-[#B8121C]/45 bg-[#0D2037] px-6 py-10 text-white sm:px-10 sm:py-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(184,18,28,0.34),transparent_26%)]" />
@@ -141,26 +153,25 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
             <CheckCircle2 size={25} />
           </span>
           <p className="mt-7 text-[0.65rem] font-extrabold uppercase tracking-[0.19em] text-[#F5B8BB]">
-            Diagnostic received · next step with Hubil
+            Diagnostic received
           </p>
-          <h3 className="mt-3 font-display text-4xl leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl">
-            Good. A specialist will review the brief.
+          <h3 className="mt-3 font-display text-3xl leading-[1.05] tracking-[-0.04em] text-white sm:text-4xl">
+            Brief is with Hubil.
           </h3>
-          <p className="mt-5 max-w-xl text-base leading-7 text-slate-300">
-            Your answers are with Hubil. You can open WhatsApp with a short summary
-            already written — so the conversation starts with context.
-          </p>
-          <div className="mt-6 border border-white/15 bg-white/[0.04] px-4 py-4 text-sm leading-6 text-slate-200">
+          <div className="mt-6 border border-white/15 bg-white/[0.06] px-4 py-4">
             <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#F5B8BB]">
-              What happens next
+              Suggested track
             </p>
-            <ul className="mt-3 grid gap-2 text-slate-300">
-              <li>· A Hubil specialist reviews your diagnostic brief.</li>
-              <li>· First human reply is thoughtful — no auto-pitch, no prices.</li>
-              <li>· Discovery only when there is clear fit.</li>
-            </ul>
+            <p className="mt-2 text-lg font-bold text-white">{track}</p>
+            <p className="mt-2 text-sm text-slate-300">
+              Friction: {completed.dominantGap}
+            </p>
           </div>
-          <p className="mt-5 text-xs leading-5 text-slate-400">{SITE.privacyNote}</p>
+          <p className="mt-5 text-sm leading-6 text-slate-300">
+            A specialist reviews your brief. First reply is human — no auto-pitch,
+            no prices. Discovery only when there is fit.
+          </p>
+          <p className="mt-4 text-xs leading-5 text-slate-400">{SITE.privacyNote}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href={continueUrl}
@@ -176,7 +187,7 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 border border-white/20 px-5 py-3.5 text-sm font-extrabold text-white hover:bg-white/10"
             >
-              Open WhatsApp without summary
+              Open WhatsApp
             </a>
             <button
               type="button"
@@ -194,45 +205,35 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
   return (
     <div className="border border-[#D8D4CC] bg-white shadow-[0_24px_70px_rgba(13,32,55,0.09)]">
       <div className="grid border-b border-[#D8D4CC] bg-[#F8F6F1] sm:grid-cols-[1fr_auto] sm:items-center">
-        <div className="px-5 py-5 sm:px-8">
+        <div className="px-5 py-4 sm:px-8">
           <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#B8121C]">
-            FirstLine diagnostic · FL–01
+            FirstLine · FL–01
           </p>
           <p className="mt-1 text-sm font-bold text-[#0D2037]">
-            Institutions & serious brands — clarity before action
+            {stepLabels[activeStep]} · Step {activeStep + 1} of {TOTAL_STEPS}
           </p>
         </div>
         <div className="border-t border-[#D8D4CC] px-5 py-4 sm:border-l sm:border-t-0 sm:px-8">
-          <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#526174]">
-            Progress
-          </p>
-          <div className="mt-2 flex items-center gap-3">
-            <div className="h-1.5 w-28 bg-[#D8D4CC]">
+          <div className="flex items-center gap-3">
+            <div className="h-1.5 w-32 max-w-full flex-1 bg-[#D8D4CC] sm:w-28 sm:flex-none">
               <div
                 className="h-full bg-[#B8121C] transition-[width] duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
             <span className="text-xs font-extrabold text-[#0D2037]">
-              {activeStep + 1} / {TOTAL_STEPS}
+              {progress}%
             </span>
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="grid lg:grid-cols-[0.32fr_0.68fr]">
-        <aside className="border-b border-[#D8D4CC] bg-[#0D2037] px-5 py-7 text-white lg:border-b-0 lg:border-r lg:px-8 lg:py-10">
+      <form onSubmit={handleSubmit} className="grid lg:grid-cols-[0.28fr_0.72fr]">
+        <aside className="hidden border-b border-[#D8D4CC] bg-[#0D2037] px-5 py-7 text-white lg:block lg:border-b-0 lg:border-r lg:px-7 lg:py-9">
           <span className="text-[0.6rem] font-extrabold uppercase tracking-[0.18em] text-[#F5B8BB]">
-            Why this matters
+            Progress
           </span>
-          <p className="mt-4 font-display text-3xl leading-[1.04] tracking-[-0.04em]">
-            A short read on where the work is hardest.
-          </p>
-          <p className="mt-5 text-sm leading-6 text-slate-300">
-            Plain English. No judgment. Then a specialist reviews the brief and
-            continues only if there is fit.
-          </p>
-          <div className="mt-8 grid gap-3">
+          <div className="mt-6 grid gap-2.5">
             {stepLabels.map((label, index) => (
               <div
                 key={label}
@@ -244,52 +245,52 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
                       : "border-white/10 text-slate-500"
                 }`}
               >
-                <span className="font-display text-lg">
+                <span className="font-display text-base">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 {label}
               </div>
             ))}
           </div>
-          <div className="mt-9 flex items-start gap-3 border-t border-white/15 pt-5 text-xs leading-5 text-slate-400">
-            <LockKeyhole size={16} className="mt-0.5 shrink-0 text-[#E14C53]" />
-            <span>{SITE.privacyNote}</span>
+          <div className="mt-8 flex items-start gap-2 border-t border-white/15 pt-5 text-[11px] leading-5 text-slate-400">
+            <LockKeyhole size={14} className="mt-0.5 shrink-0 text-[#E14C53]" />
+            <span>Answers go only to Hubil. Not sold or shared.</span>
           </div>
         </aside>
 
-        <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-11">
+        <div className="px-5 py-7 sm:px-8 sm:py-9 lg:px-10">
           {currentQuestion && currentKey ? (
-            <div>
+            <div className="animate-in fade-in duration-200">
               <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#B8121C]">
-                Record {currentQuestion.record} · {currentQuestion.eyebrow}
+                {currentQuestion.eyebrow}
               </p>
-              <h3 className="mt-3 max-w-2xl font-display text-3xl leading-[1.06] tracking-[-0.04em] text-[#0D2037] sm:text-4xl">
+              <h3 className="mt-3 max-w-2xl font-display text-2xl leading-[1.08] tracking-[-0.04em] text-[#0D2037] sm:text-3xl">
                 {currentQuestion.title}
               </h3>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#526174]">
-                {currentQuestion.helper}
-              </p>
-              <div className="mt-8 grid gap-px border border-[#D8D4CC] bg-[#D8D4CC]">
+              <p className="mt-2 text-sm text-[#526174]">{currentQuestion.helper}</p>
+              <div className="mt-6 grid gap-2">
                 {currentQuestion.options.map((option) => {
                   const selected = response[currentKey] === option;
                   return (
                     <button
                       key={option}
                       type="button"
-                      onClick={() => setChoice(currentKey as ChoiceField, option)}
+                      onClick={() =>
+                        setChoice(currentKey as ChoiceField, option)
+                      }
                       aria-pressed={selected}
-                      className={`group flex min-h-[64px] items-center justify-between gap-4 px-5 py-4 text-left text-sm font-extrabold ${
+                      className={`flex min-h-[56px] items-center justify-between gap-3 border px-4 py-3.5 text-left text-sm font-bold transition-colors ${
                         selected
-                          ? "bg-[#0D2037] text-white"
-                          : "bg-white text-[#0D2037] hover:bg-[#F8F6F1]"
+                          ? "border-[#0D2037] bg-[#0D2037] text-white"
+                          : "border-[#D8D4CC] bg-white text-[#0D2037] hover:border-[#B8121C]/50 hover:bg-[#F8F6F1]"
                       }`}
                     >
                       <span>{option}</span>
                       <span
-                        className={`grid h-6 w-6 place-items-center rounded-full border ${
+                        className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border ${
                           selected
                             ? "border-[#E14C53] bg-[#B8121C] text-white"
-                            : "border-[#D8D4CC] text-transparent group-hover:border-[#B8121C]"
+                            : "border-[#D8D4CC] text-transparent"
                         }`}
                       >
                         <CheckCircle2 size={14} />
@@ -302,34 +303,34 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
           ) : isOutcomeStep ? (
             <div>
               <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#B8121C]">
-                Record 06 · 12-month aim
+                12-month aim
               </p>
-              <h3 className="mt-3 max-w-2xl font-display text-3xl leading-[1.06] tracking-[-0.04em] text-[#0D2037] sm:text-4xl">
-                What is the main thing you want to get right in the next 12 months?
+              <h3 className="mt-3 max-w-2xl font-display text-2xl leading-[1.08] tracking-[-0.04em] text-[#0D2037] sm:text-3xl">
+                What do you want to get right in the next 12 months?
               </h3>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#526174]">
-                One or two sentences in your own words.
+              <p className="mt-2 text-sm text-[#526174]">
+                One or two sentences.
               </p>
               <textarea
                 value={response.statedOutcome}
                 onChange={(e) => setField("statedOutcome", e.target.value)}
                 rows={4}
-                placeholder="e.g. Get our delivery rhythm reliable across departments so partners can trust our timelines."
-                className={`mt-8 w-full border border-[#D8D4CC] bg-white px-4 py-3 text-sm font-medium outline-none placeholder:text-[#8B95A3] focus:border-[#B8121C] focus:ring-2 focus:ring-[#B8121C]/15`}
+                placeholder="e.g. Reliable delivery across teams so partners can trust our timelines."
+                className="mt-6 w-full border border-[#D8D4CC] bg-white px-4 py-3 text-sm font-medium outline-none placeholder:text-[#8B95A3] focus:border-[#B8121C] focus:ring-2 focus:ring-[#B8121C]/15"
               />
             </div>
           ) : (
             <div>
               <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#B8121C]">
-                Record 07 · how we reach you
+                How we reach you
               </p>
-              <h3 className="mt-3 max-w-2xl font-display text-3xl leading-[1.06] tracking-[-0.04em] text-[#0D2037] sm:text-4xl">
-                Name and best way to continue
+              <h3 className="mt-3 max-w-2xl font-display text-2xl leading-[1.08] tracking-[-0.04em] text-[#0D2037] sm:text-3xl">
+                Name and best contact
               </h3>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#526174]">
+              <p className="mt-2 text-sm text-[#526174]">
                 Use the WhatsApp or email you actually answer.
               </p>
-              <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <label className="grid gap-2 text-sm font-extrabold text-[#0D2037]">
                   Your name
                   <input
@@ -342,7 +343,7 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
                   />
                 </label>
                 <label className="grid gap-2 text-sm font-extrabold text-[#0D2037]">
-                  Organisation or brand name
+                  Organisation or brand
                   <input
                     value={response.orgName}
                     onChange={(e) => setField("orgName", e.target.value)}
@@ -368,7 +369,7 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
                     value={response.heardAbout}
                     onChange={(e) => setField("heardAbout", e.target.value)}
                     name="heardAbout"
-                    placeholder="e.g. LinkedIn, referral, ISEYC…"
+                    placeholder="LinkedIn, referral, ISEYC…"
                     className={inputCls}
                   />
                 </label>
@@ -379,19 +380,20 @@ export function DiagnosticFlow({ whatsappUrl, onComplete }: DiagnosticFlowProps)
           {error && (
             <p
               role="alert"
-              className="mt-6 border-l-2 border-[#B8121C] bg-[#FFF7F7] px-4 py-3 text-sm font-semibold leading-6 text-[#7A1420]"
+              className="mt-5 border-l-2 border-[#B8121C] bg-[#FFF7F7] px-4 py-3 text-sm font-semibold text-[#7A1420]"
             >
               {error}
             </p>
           )}
-          <div className="mt-9 flex flex-col-reverse gap-3 border-t border-[#D8D4CC] pt-6 sm:flex-row sm:items-center sm:justify-between">
+
+          <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[#D8D4CC] pt-5 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="button"
               onClick={moveBack}
               disabled={activeStep === 0 || isSubmitting}
               className="inline-flex items-center justify-center gap-2 px-2 py-3 text-sm font-extrabold text-[#526174] hover:text-[#0D2037] disabled:pointer-events-none disabled:opacity-30"
             >
-              <ArrowLeft size={17} /> Previous
+              <ArrowLeft size={17} /> Back
             </button>
             {activeStep < TOTAL_STEPS - 1 ? (
               <Button
