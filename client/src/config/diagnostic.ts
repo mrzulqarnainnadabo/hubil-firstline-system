@@ -1,9 +1,6 @@
 /**
  * FirstLine Diagnostic — Dual-track prospect model
- * --------------------------------------------------------------------------
- * One public diagnostic for institutions and serious brands.
  * Maps to Hubil Clients Notion database.
- * Database: https://www.notion.so/86a2b54bbdf247b2831923cb6590aa82
  */
 
 export const DIAGNOSTIC_SOURCE = "FirstLine Diagnostic";
@@ -42,8 +39,7 @@ export const diagnosticQuestions = {
     record: "01",
     eyebrow: "What you are building",
     title: "What are you building or running?",
-    helper:
-      "Choose the closest fit. This helps us match the right tone and track — nothing is ranked higher than anything else.",
+    helper: "Closest fit is enough.",
     options: [
       "A government or public institution",
       "A company or organisation with a team",
@@ -56,8 +52,7 @@ export const diagnosticQuestions = {
     record: "02",
     eyebrow: "Where it feels hardest",
     title: "Where does the work feel hardest right now?",
-    helper:
-      "Pick the primary friction. You can clarify later — this is not a test.",
+    helper: "Pick the primary friction.",
     options: [
       "Being seen, trusted, or taken seriously",
       "Getting work finished on time and to standard",
@@ -70,9 +65,9 @@ export const diagnosticQuestions = {
   },
   scale: {
     record: "03",
-    eyebrow: "Scale of the effort",
+    eyebrow: "Scale",
     title: "How big is the effort roughly?",
-    helper: "A light signal so we do not over- or under-recommend.",
+    helper: "So we do not over- or under-recommend.",
     options: [
       "Just me or a very small team",
       "A structured team or department",
@@ -84,7 +79,7 @@ export const diagnosticQuestions = {
     record: "04",
     eyebrow: "Timing",
     title: "When do you need real progress?",
-    helper: "There is no wrong answer. It shapes urgency, not priority of care.",
+    helper: "Shapes urgency, not priority of care.",
     options: [
       "In the next few months",
       "This year",

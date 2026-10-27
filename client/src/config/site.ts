@@ -1,8 +1,6 @@
 /**
  * Hubil FirstLine — positioning & contact
- * --------------------------------------------------------------------------
- * Dual-track diagnostic front door: institutions and serious brands.
- * Outcomes only. No prices on this surface.
+ * Dual-track: institutions and serious brands. Outcomes only. No prices.
  */
 
 export const SITE = {
@@ -15,28 +13,28 @@ export const SITE = {
   eyebrow: "For institutions and serious brands that need clarity before action",
   headline: "See the friction clearly. Then install the right system.",
   tagline:
-    "FirstLine is a short diagnostic that maps where work is hardest — visibility, delivery, coordination, digital tools, or access — and points to the practical next step. We continue the conversation with context already in hand.",
+    "A short diagnostic that maps where work is hardest — and points to the practical next step.",
   availabilityNote:
     "Diagnostic first · Human review · Discovery only when there is fit",
 
   corePromise:
-    "We build systems and create value — we do not just give advice. The same discipline used for institutional and civic operating systems is applied to your organisation or brand.",
+    "We build systems and create value — we do not just give advice.",
 
   whoThisIsFor:
-    "Government and public institutions, structured companies, development programmes, serious brands, and growing businesses that need operating clarity — not another slide deck.",
+    "Institutions, structured companies, programmes, and serious brands that need operating clarity — not another slide deck.",
 
   valuePillars: [
     {
-      title: "Clear diagnosis first",
-      copy: "Short, plain-English questions. No judgment. A usable internal brief for Hubil so the first human reply is already informed.",
+      title: "Clear diagnosis",
+      copy: "Short questions. A usable brief so the first human reply is informed.",
     },
     {
       title: "Systems, not noise",
-      copy: "Brand & reputation, delivery, operating systems, practical AI, access & partnerships, community systems — matched to the dominant gap.",
+      copy: "Matched to the dominant gap — brand, delivery, coordination, digital, or access.",
     },
     {
-      title: "Speed of thoughtful response",
-      copy: "Your answers create a structured record. A specialist reviews and continues with you — high-status, no auto-pitch, no invented prices.",
+      title: "Thoughtful speed",
+      copy: "Structured record. Specialist review. No auto-pitch. No invented prices.",
     },
   ] as const,
 
@@ -44,12 +42,12 @@ export const SITE = {
     {
       code: "01",
       name: "Brand & reputation",
-      bestFor: "When being seen, trusted, or taken seriously is the friction.",
-      solves: "Weak presence, unclear positioning, institutional credibility gaps.",
+      bestFor: "When being seen or trusted is the friction.",
+      solves: "Weak presence, unclear positioning, credibility gaps.",
       includes: [
-        "Positioning and narrative structure",
+        "Positioning and narrative",
         "Reputation and proof assets",
-        "Public-facing systems that match the real work",
+        "Public systems that match the real work",
       ],
     },
     {
@@ -58,7 +56,7 @@ export const SITE = {
       bestFor: "When work does not finish on time or to standard.",
       solves: "Missed deadlines, unclear ownership, weak handover.",
       includes: [
-        "Delivery rhythm and accountability",
+        "Delivery rhythm",
         "Task and project structure",
         "Simple operating cadence",
       ],
@@ -66,10 +64,10 @@ export const SITE = {
     {
       code: "03",
       name: "Coordination & institutional systems",
-      bestFor: "When teams, departments, or partners do not align.",
-      solves: "Fragmented information, approval bottlenecks, weak cross-unit flow.",
+      bestFor: "When teams or partners do not align.",
+      solves: "Fragmented information, approval bottlenecks.",
       includes: [
-        "Information and decision architecture",
+        "Decision architecture",
         "Cross-team operating design",
         "Reporting and signal systems",
       ],
@@ -77,48 +75,48 @@ export const SITE = {
     {
       code: "04",
       name: "Practical AI & digital",
-      bestFor: "When data, tools, or AI are underused or chaotic.",
-      solves: "Scattered tools, no digital backbone, missed leverage from AI.",
+      bestFor: "When tools or AI are underused or chaotic.",
+      solves: "Scattered tools, no digital backbone.",
       includes: [
         "Practical digital setup",
-        "Light AI workflows that stick",
-        "Data and information hygiene",
+        "Light AI workflows",
+        "Information hygiene",
       ],
     },
     {
       code: "05",
       name: "Access & partnerships",
-      bestFor: "When the right institutions or partners are hard to reach.",
-      solves: "Closed doors, weak institutional relations, unclear approach.",
+      bestFor: "When the right institutions are hard to reach.",
+      solves: "Closed doors, weak institutional relations.",
       includes: [
         "Access track design",
         "Partnership readiness",
-        "Institutional relationship systems",
+        "Relationship systems",
       ],
     },
     {
       code: "06",
       name: "Community systems",
-      bestFor: "Youth, civic, and community programmes that need real structure.",
-      solves: "Ad-hoc programmes, weak signal, no durable operating layer.",
+      bestFor: "Youth, civic, and community programmes.",
+      solves: "Ad-hoc programmes, no durable operating layer.",
       includes: [
-        "Community and youth operating systems",
-        "Civic signal and capacity design",
+        "Community operating systems",
+        "Civic signal design",
         "Programme delivery structure",
       ],
     },
   ] as const,
 
   howWeWork: [
-    "Short diagnostic — honest answers, under a few minutes.",
-    "Internal brief generated and reviewed by Hubil.",
-    "Human first message — high-status, no prices, no guarantees.",
+    "Short diagnostic — under a few minutes.",
+    "Internal brief reviewed by Hubil.",
+    "Human first message — no prices, no guarantees.",
     "Discovery only when there is clear fit.",
-    "Systems installed and handed over with discipline.",
+    "Systems installed with discipline.",
   ] as const,
 
   whyHubil:
-    "Hubil Group designs real operating systems — strategy, structure, growth. Proof includes institutional and civic systems work (ISEYC-related Digital Operations Centre, Civic Signal, programme architecture). We install what lasts.",
+    "Hubil Group designs real operating systems — strategy, structure, growth. We install what lasts.",
 
   primaryWhatsApp: "2348036984766",
   primaryWhatsAppDisplay: "+234 803 698 4766",
@@ -129,12 +127,11 @@ export const SITE = {
   systemsDashboardUrl: "https://www.notion.so/3c25db88ef4681758f60eb443e969f9b",
 
   privacyNote:
-    "Your answers go only to Hubil Group. We do not sell or share your data. A specialist reviews the record and continues with you only if there is a fit.",
+    "Your answers go only to Hubil Group. We do not sell or share your data. A specialist reviews and continues only if there is fit.",
 
   images: {
     hubilLogo: "/hubil-logo.png",
     foundationMark: "/hubil-logo.png",
-    // No external hero/service images — keep the surface clean and self-contained
     hero: "",
     about: "",
     serviceDetail: "",
