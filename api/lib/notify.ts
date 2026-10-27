@@ -1,7 +1,8 @@
 /**
- * Founder alerts for High-priority FirstLine diagnostics.
- * WhatsApp (Twilio) and/or email (Resend) — enabled only when env vars are set.
- * Medium/Watch never ping. Failures are logged; they never block the diagnostic response.
+ * Founder alerts for FirstLine diagnostics.
+ * Email (Resend) and/or WhatsApp (Twilio) when env vars are set.
+ * All priorities get email when configured. High also attempts WhatsApp.
+ * Failures are logged; they never block the diagnostic response.
  */
 
 export type NotifyBrief = {
@@ -13,12 +14,13 @@ export type NotifyBrief = {
   orgName?: string;
   dominantGap: string;
   notionUrl?: string;
+  firstMove?: string;
 };
 
 function buildAlertBody(b: NotifyBrief): string {
   const org = b.orgName?.trim() || "—";
   const lines = [
-    "FIRSTLINE HIGH",
+    `FIRSTLINE · ${b.priority.toUpperCase()}`,
     `Name: ${b.fullName}`,
     `Org: ${org}`,
     `Type: ${b.orgType}`,
@@ -26,16 +28,21 @@ function buildAlertBody(b: NotifyBrief): string {
     `Gap: ${b.dominantGap}`,
     `Contact: ${b.contact}`,
   ];
+  if (b.firstMove) lines.push(`First move: ${b.firstMove}`);
   if (b.notionUrl) lines.push(`Notion: ${b.notionUrl}`);
-  lines.push("Status: Briefed — respond within 1 business day.");
+  lines.push(
+    b.priority === "High"
+      ? "Status: Briefed — respond within 1 business day."
+      : "Status: Briefed — review and reply when ready.",
+  );
   return lines.join("\n");
 }
 
 async function sendWhatsApp(body: string): Promise<boolean> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_WHATSAPP_FROM; // e.g. whatsapp:+14155238886
-  const to = process.env.FOUNDER_WHATSAPP_TO; // e.g. whatsapp:+234...
+  const from = process.env.TWILIO_WHATSAPP_FROM;
+  const to = process.env.FOUNDER_WHATSAPP_TO;
   if (!sid || !token || !from || !to) return false;
 
   const url = `https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`;
@@ -72,10 +79,12 @@ async function sendWhatsApp(body: string): Promise<boolean> {
 async function sendEmail(body: string, brief: NotifyBrief): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.FOUNDER_EMAIL_TO;
-  const from = process.env.NOTIFY_EMAIL_FROM || "FirstLine <onboarding@resend.dev>";
+  const from =
+    process.env.NOTIFY_EMAIL_FROM || "FirstLine <onboarding@resend.dev>";
   if (!apiKey || !to) return false;
 
-  const subject = `FirstLine HIGH — ${brief.fullName} · ${brief.track}`;
+  const org = brief.orgName?.trim() || brief.fullName;
+  const subject = `[FirstLine] ${brief.priority} · ${org} · ${brief.track}`;
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -105,34 +114,36 @@ async function sendEmail(body: string, brief: NotifyBrief): Promise<boolean> {
 }
 
 /**
- * Notify founder only for High priority. Safe to call always.
+ * Notify founder on every new diagnostic when channels are configured.
+ * WhatsApp reserved for High. Email for all priorities.
  */
-export async function notifyFounderIfHigh(brief: NotifyBrief): Promise<{
+export async function notifyFounderOnDiagnostic(brief: NotifyBrief): Promise<{
   attempted: boolean;
   whatsapp: boolean;
   email: boolean;
 }> {
-  if (brief.priority !== "High") {
-    return { attempted: false, whatsapp: false, email: false };
-  }
-
   const body = buildAlertBody(brief);
   let whatsapp = false;
   let email = false;
+  let attempted = false;
 
-  try {
-    whatsapp = await sendWhatsApp(body);
-  } catch (err) {
-    console.error(
-      JSON.stringify({
-        event: "firstline.notify.whatsapp_exception",
-        message: err instanceof Error ? err.message : String(err),
-      }),
-    );
+  if (brief.priority === "High") {
+    attempted = true;
+    try {
+      whatsapp = await sendWhatsApp(body);
+    } catch (err) {
+      console.error(
+        JSON.stringify({
+          event: "firstline.notify.whatsapp_exception",
+          message: err instanceof Error ? err.message : String(err),
+        }),
+      );
+    }
   }
 
   try {
     email = await sendEmail(body, brief);
+    if (email) attempted = true;
   } catch (err) {
     console.error(
       JSON.stringify({
@@ -142,9 +153,13 @@ export async function notifyFounderIfHigh(brief: NotifyBrief): Promise<{
     );
   }
 
+  // If no email env, still mark High as attempted when WhatsApp ran
+  if (brief.priority === "High") attempted = true;
+
   console.log(
     JSON.stringify({
-      event: "firstline.notify.high",
+      event: "firstline.notify.diagnostic",
+      priority: brief.priority,
       whatsapp,
       email,
       track: brief.track,
@@ -152,5 +167,10 @@ export async function notifyFounderIfHigh(brief: NotifyBrief): Promise<{
     }),
   );
 
-  return { attempted: true, whatsapp, email };
+  return { attempted, whatsapp, email };
+}
+
+/** @deprecated use notifyFounderOnDiagnostic */
+export async function notifyFounderIfHigh(brief: NotifyBrief) {
+  return notifyFounderOnDiagnostic(brief);
 }

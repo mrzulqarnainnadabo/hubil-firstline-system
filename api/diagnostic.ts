@@ -5,7 +5,7 @@ import {
   generateBrief,
   type DiagnosticRecord,
 } from "./lib/diagnostic.js";
-import { notifyFounderIfHigh } from "./lib/notify.js";
+import { notifyFounderOnDiagnostic } from "./lib/notify.js";
 
 export default async function handler(
   req: VercelRequest,
@@ -75,9 +75,9 @@ export default async function handler(
     );
   }
 
-  // High only — never blocks the client response
+  // Notify founder — never blocks client response
   try {
-    await notifyFounderIfHigh({
+    await notifyFounderOnDiagnostic({
       priority: brief.priority,
       track: brief.track,
       orgType: record.orgType,
@@ -86,6 +86,7 @@ export default async function handler(
       orgName: record.orgName,
       dominantGap: record.dominantGap,
       notionUrl: notionPage?.url,
+      firstMove: brief.firstMove,
     });
   } catch (err) {
     console.error(
@@ -103,6 +104,7 @@ export default async function handler(
     reference: record.submittedAt,
     track: brief.track,
     priority: brief.priority,
+    firstMove: brief.firstMove,
     notion: notionPage
       ? { created: true, pageId: notionPage.pageId }
       : { created: false },
